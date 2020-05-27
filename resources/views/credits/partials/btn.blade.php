@@ -1,0 +1,1 @@
+<span id="credit-add" data-toggle="modal" data-target="#creditModal" title="{{ __('app.Credit_add') }}" class="btn btn-info btn-lg mb-4 mt-4"><i class="fa fa-coins text-white"></i> {{ __('app.Credit') }} <span id="credit_total">{{ $member->credit }}</span> {{  __('app.Coin') }}</span><br>

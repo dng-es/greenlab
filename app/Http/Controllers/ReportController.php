@@ -1,0 +1,150 @@
+<?php
+
+namespace App\Http\Controllers;
+
+
+use App\Category;
+use App\Member;
+use App\Product;
+use App\Supplier;
+use App\Warehouse;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+
+class ReportController extends Controller
+{  
+
+    public function show(Request $request, $type)
+    {
+        $limit = $request->input('limit', 10);
+        $order = $request->input('order', 'total');
+        $month = $request->input('month', Carbon::now()->format('m'));
+        $year = $request->input('year', Carbon::now()->format('Y'));
+        $year_ini = substr(Warehouse::min('created_at'), 0, 4);
+        $show_months = true;
+
+        switch ($type) {
+            case 'top_month':
+                $title = __('app.Top_month');
+                $data = Product::select(DB::raw('CONCAT(products.name, " - " , categories.name) AS name, SUM( warehouses.total ) AS total, SUM( amount_real ) AS total2'))
+                        ->leftJoin('categories', 'categories.id', 'products.category_id')
+                        ->leftJoin('warehouses', 'warehouses.product_id', 'products.id')
+                        ->where('warehouses.type', 'S')
+                        ->where('categories.bar', 0)
+                        ->whereMonth('warehouses.created_at', $month)
+                        ->whereYear('warehouses.created_at', $year)
+                        ->groupBy('warehouses.product_id');
+                break;
+            case 'top_year':
+                $title = __('app.Top_year');
+                $show_months = false;
+                $data = Product::select(DB::raw('CONCAT(products.name, " - " , categories.name) AS name,  SUM( warehouses.total ) AS total, SUM( amount_real ) AS total2'))
+                        ->leftJoin('categories', 'categories.id', 'products.category_id')
+                        ->leftJoin('warehouses', 'warehouses.product_id', 'products.id')
+                        ->where('warehouses.type', 'S')
+                        ->where('categories.bar', 0)
+                        ->whereYear('warehouses.created_at', $year)
+                        ->groupBy('warehouses.product_id');
+                break;
+
+            case 'top_category_month':
+                $title = __('app.Top_category_month');
+                $data = Category::select(DB::raw('categories.id, categories.name AS name, SUM( warehouses.total ) AS total, SUM( amount_real ) AS total2'))
+                        ->Join('products', 'categories.id', 'products.category_id')
+                        ->Join('warehouses', 'warehouses.product_id', 'products.id')
+                        ->where('warehouses.type', 'S')
+                        ->where('categories.bar', 0)
+                        ->whereMonth('warehouses.created_at', $month)
+                        ->whereYear('warehouses.created_at', $year)
+                        ->groupBy('categories.id');
+                break;
+
+            case 'top_category_year':
+                $title = __('app.Top_category_year');
+                $show_months = false;
+                $data = Category::select(DB::raw('categories.id, categories.name AS name,  SUM( warehouses.total ) AS total, SUM( amount_real ) AS total2'))
+                        ->Join('products', 'categories.id', 'products.category_id')
+                        ->Join('warehouses', 'warehouses.product_id', 'products.id')
+                        ->where('warehouses.type', 'S')
+                        ->where('categories.bar', 0)
+                        ->whereYear('warehouses.created_at', $year)
+                        ->groupBy('categories.id');
+                break;
+
+            case 'top_member_month':
+                $title = __('app.Top_member_month');
+                $data = Member::select(DB::raw('CONCAT(members.name, " ", members.last_name) AS name,  SUM( warehouses.total ) AS total, SUM( amount_real ) AS total2'))
+                        ->leftJoin('warehouses', 'warehouses.member_id', 'members.id')
+                        ->leftJoin('products', 'products.id', 'warehouses.product_id')
+                        ->leftJoin('categories', 'categories.id', 'products.category_id')
+                        ->where('warehouses.type', 'S')
+                        ->where('categories.bar', 0)
+                        ->whereMonth('warehouses.created_at', $month)
+                        ->whereYear('warehouses.created_at', $year)
+                        ->groupBy('warehouses.member_id');
+                break;    
+
+            case 'top_member_year':
+                $title = __('app.Top_member_year');
+                $show_months = false;
+                $data = Member::select(DB::raw('CONCAT(members.name, " ", members.last_name) AS name,  SUM( warehouses.total ) AS total, SUM( amount_real ) AS total2'))
+                        ->leftJoin('warehouses', 'warehouses.member_id', 'members.id')
+                        ->leftJoin('products', 'products.id', 'warehouses.product_id')
+                        ->leftJoin('categories', 'categories.id', 'products.category_id')
+                        ->where('warehouses.type', 'S')
+                        ->where('categories.bar', 0)
+                        ->whereYear('warehouses.created_at', $year)
+                        ->groupBy('warehouses.member_id');
+                break;
+            case 'top_supplier_month':
+                $title = __('app.Top_supplier_month');
+                $data = Supplier::select('suppliers.*', DB::raw(' SUM( warehouses.total ) AS total, SUM( warehouses.amount ) AS total2'))
+                        ->leftJoin('warehouses', 'warehouses.supplier_id', 'suppliers.id')
+                        ->leftJoin('products', 'products.id', 'warehouses.product_id')
+                        ->leftJoin('categories', 'categories.id', 'products.category_id')
+                        ->where('warehouses.type', 'E')
+                        ->where('categories.bar', 0)
+                        ->whereMonth('warehouses.created_at', $month)
+                        ->whereYear('warehouses.created_at', $year)
+                        ->groupBy('warehouses.supplier_id');
+                break;    
+
+            case 'top_supplier_year':
+                $title = __('app.Top_supplier_year');
+                $show_months = false;
+                $data = Supplier::select('suppliers.*', DB::raw(' SUM(warehouses.total ) AS total, SUM( warehouses.amount ) AS total2'))
+                        ->leftJoin('warehouses', 'warehouses.supplier_id', 'suppliers.id')
+                        ->leftJoin('products', 'products.id', 'warehouses.product_id')
+                        ->leftJoin('categories', 'categories.id', 'products.category_id')
+                        ->where('warehouses.type', 'E')
+                        ->where('categories.bar', 0)
+                        ->whereYear('warehouses.created_at', $year)
+                        ->groupBy('warehouses.supplier_id');
+                break;                            
+            default:
+                $data = null;
+                $title = '';
+                break;
+        }
+
+        $data = $data->orderBy($order, 'DESC')
+                    ->limit($limit)
+                    ->get();
+
+        return view('reports', [
+            'title' => $title, 
+            'type' => $type, 
+            'data' => $data, 
+            'limit' => $limit,
+            'order' => $order,
+            'month' => $month,
+            'year' => $year,
+            'year_ini' => $year_ini,
+            'show_months' => $show_months,
+        ]);
+    }
+
+}
