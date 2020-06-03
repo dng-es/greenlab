@@ -22,7 +22,7 @@ class DashboardController extends Controller
             ->get();
 
         $update_app = false;
-        dd($updater);
+        //dd($updater->source());
         // Check if new version is available
         if($updater->source()->isNewVersionAvailable()) {
             $update_app = true;
