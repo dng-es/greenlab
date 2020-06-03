@@ -9,7 +9,7 @@
 {{ Breadcrumbs::render('dashboard') }}
 
 @include('layouts.messages')
-
+test
 @if($update_app)
 <div class="alert alert-warning">Actualización disponible</div>
 @endif
