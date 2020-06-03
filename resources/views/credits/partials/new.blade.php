@@ -6,7 +6,7 @@
 
     <div class="form-group{{ $errors->has('credit') ? ' has-error' : '' }}">
         <label for="credit" class="control-label">{{ __('general.New') }} {{ __('app.Credit') }}:</label>
-        <input id="credit" type="number" class="text-right form-control @error('credit') is-invalid @enderror" name="credit" value="{{ old('credit') }}" placeholder="{{  __('app.Coin') }}">
+        <input id="credit" type="number" class="text-right form-control @error('credit') is-invalid @enderror" name="credit" value="{{ old('credit') }}" placeholder="{{  __('app.Coin') }}" required autofocus >
     </div>    
 
     <div class="form-group{{ $errors->has('notes') ? ' has-error' : '' }}">

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MemberRequest extends FormRequest
+class MemberUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,8 @@ class MemberRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|string|max:255|min:2|unique:members,code',
-            'vat' => 'required|string|max:255|min:2|unique:members,vat',
+            'code' => 'required|string|max:255|min:2|unique:members,code,'.$this->member->id,
+            'vat' => 'required|string|max:255|min:2|unique:members,vat,'.$this->member->id,
             'name' => 'required|string|max:255|min:2',
             'last_name' => 'required|string|max:255|min:2',
 /*            'picture' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',*/

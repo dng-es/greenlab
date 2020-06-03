@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c2cefbb20175c24307f77849524389d",
+    "content-hash": "9426c913c5096a286367556f687ec123",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -132,6 +132,74 @@
                 "json"
             ],
             "time": "2018-05-04T15:38:02+00:00"
+        },
+        {
+            "name": "codedge/laravel-selfupdater",
+            "version": "2.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codedge/laravel-selfupdater.git",
+                "reference": "0d7d4eb7ea9e9ab42177df560d0b2e06296a84bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codedge/laravel-selfupdater/zipball/0d7d4eb7ea9e9ab42177df560d0b2e06296a84bd",
+                "reference": "0d7d4eb7ea9e9ab42177df560d0b2e06296a84bd",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-zip": "*",
+                "guzzlehttp/guzzle": "6.*",
+                "laravel/framework": "^5.8|6.*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "dg/bypass-finals": "^1.1",
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^4.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Codedge\\Updater\\UpdaterServiceProvider"
+                    ],
+                    "aliases": {
+                        "Updater": "Codedge\\Updater\\UpdaterFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Codedge\\Updater\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Holger Lösken",
+                    "email": "holger.loesken@codedge.de",
+                    "homepage": "http://codedge.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Providing an auto-updating functionality for your self-hosted Laravel application.",
+            "keywords": [
+                "auto update",
+                "auto-update",
+                "laravel",
+                "laravel application",
+                "self update",
+                "self-hosted laravel application",
+                "self-update",
+                "update"
+            ],
+            "time": "2020-03-02T22:07:04+00:00"
         },
         {
             "name": "consoletvs/charts",

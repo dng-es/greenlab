@@ -123,5 +123,5 @@
 <script type="text/javascript" src="{{ URL::asset('js/counter.js') }}"></script> 
 <script type="text/javascript" src="{{ url('js/sell.js') }}"></script>
 <script type="text/javascript" src="{{ url('js/search.js') }}"></script>
-<script type="text/javascript" src="{{ url('js/credit.js') }}"></script>
+<script type="text/javascript" src="{{ url('js/credits.js') }}"></script>
 @endsection

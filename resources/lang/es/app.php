@@ -22,6 +22,7 @@ return
 	'Search_member' => 'Buscar socio',
 	'Fees' => 'Cuotas',
 	'Fee' => 'Cuota',
+	'Fee_new' => 'Nueva cuota',
 	'Suppliers' => 'Proveedores',
 	'Supplier' => 'Proveedor',
 	'Warehouses' => 'Almacenes',
@@ -55,4 +56,8 @@ return
 	'Credit' => 'Crédito',
 	'Credit_add' => 'Añadir crédito',
 	'Personal_information' => 'Datos personales',
+	'Vat' => 'DNI',
+	'Incomes' => 'Ingresos',
+	'Expenses' => 'Gastos',	
+	'Expenses_other' => 'Otros gastos',	
 ];

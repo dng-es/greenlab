@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Exports\MembersExport;
 use App\Http\Requests\MemberRequest;
+use App\Http\Requests\MemberUpdateRequest;
 use App\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -63,6 +64,7 @@ class MemberController extends Controller
 
         if ($member = Member::create([
                 'code'     => $request->input('code'),
+                'vat'     => $request->input('vat'),
                 'name'     => $request->input('name'),
                 'last_name'    => $request->input('last_name'),
                 'telephone'    => $request->input('telephone'),
@@ -104,9 +106,10 @@ class MemberController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateProcess(MemberRequest $request, Member $member)
+    public function updateProcess(Member $member, MemberUpdateRequest $request)
     {
         $member->name = $request->input('name');
+        $member->vat = $request->input('vat');
         $member->last_name = $request->input('last_name');
         $member->telephone = $request->input('telephone');
         $member->email = $request->input('email');
@@ -139,25 +142,11 @@ class MemberController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(MemberRequest $request)
+    public function update(Member $member, MemberUpdateRequest $request)
     {
-        $member = Member::findOrFail($request->input('member_id'));
-        if ($this->updateProcess($request, $member))
+        if ($this->updateProcess($member, $request))
         return response()->json(['success'=> __('general.UpdateOkMessage'), 'data' => $member]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  $id
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function updateMembers(MemberRequest $request, Member $member)
-    {
-        if ($this->updateProcess($request, $member))
-        return redirect()->back()->with('status', __('general.UpdateOkMessage'));
-    }    
+    }  
 
 
     /**
@@ -184,7 +173,8 @@ class MemberController extends Controller
                 ->when($search != '', function($query) use ($search){
                     return $query->where('code', $search)
                                 ->orWhere('name', 'LIKE', '%'.$search.'%')
-                                ->orWhere('last_name', 'LIKE', '%'.$search.'%');
+                                ->orWhere('last_name', 'LIKE', '%'.$search.'%')
+                                ->orWhere('vat', 'LIKE', '%'.$search.'%');
                 })
                 ->get();
     }
@@ -220,13 +210,29 @@ class MemberController extends Controller
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
-        $date_credits = $credits->first()->created_at;
-
-        $history_credit = $member->credits()->where('created_at', '>', $date_credits)->sum('credit');
-
-        //dd($credits->first());
-        $balance = ($member->credit - $history_credit);
+        if ($credits->total() > 0){
+            $date_credits = $credits->first()->created_at;
+            $history_credit = $member->credits()->where('created_at', '>', $date_credits)->sum('credit');
+            $balance = ($member->credit - $history_credit);
+        }
+        else $balance = 0;
 
         return view('members.partials.credits', ['credits' => $credits, 'balance' => $balance]);
-    }  
+    } 
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function fees(Member $member)
+    {
+        $fees = $member->fees()
+            ->with('user')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+
+        return view('members.partials.fees', ['fees' => $fees]);
+    }      
 }

@@ -22,6 +22,7 @@ return
 	'Search_member' => 'Search member',
 	'Fees' => 'Fees',
 	'Fee' => 'Fee',
+	'Fee_new' => 'New fee',
 	'Suppliers' => 'Suppliers',
 	'Supplier' => 'Supplier',
 	'Warehouses' => 'Warehouses',
@@ -49,4 +50,8 @@ return
 	'Credit' => 'Credit',
 	'Credit_add' => 'Add Credit',
 	'Personal_information' => 'Personal information',
+	'Vat' => 'Vat',
+	'Incomes' => 'Incomes',
+	'Expenses' => 'Expenses',
+	'Expenses_other' => 'Other expenses',
 ];

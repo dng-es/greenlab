@@ -29,6 +29,12 @@
                         <input id="code" type="text" class="form-control @error('code') is-invalid @enderror" name="code" value="{{ old('code') }}">
                     </div>            
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group{{ $errors->has('vat') ? ' has-error' : '' }}">
+                        <label for="vat" class="control-label">{{ __('app.Vat')}}</label>
+                        <input id="vat" type="text" class="form-control @error('vat') is-invalid @enderror" name="vat" value="{{ old('vat') }}">
+                    </div>            
+                </div>                
             </div>
             <div class="row">
                 <div class="col-md-12">

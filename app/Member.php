@@ -21,7 +21,7 @@ class Member extends Model
      * @var array
      */
     protected $fillable = [
-        'code', 'name', 'last_name', 'telephone', 'email', 'picture', 'born_at', 'active', 'notes', 'credit'
+        'code', 'vat', 'name', 'last_name', 'telephone', 'email', 'picture', 'born_at', 'active', 'notes', 'credit'
     ];
 
     /**
@@ -29,9 +29,9 @@ class Member extends Model
      *
      * @var array
      */
-    // protected $casts = [
-    //     'born_at' => 'date',
-    // ];
+    protected $casts = [
+        'born_at' => 'date',
+    ];
 
     use EncryptTrait;
 
@@ -49,7 +49,7 @@ class Member extends Model
      */
     public function fees()
     {
-        return $this->hasMany('App\Fee')->withDefault();
+        return $this->hasMany('App\Fee');
     }  
 
     /**

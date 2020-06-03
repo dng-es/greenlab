@@ -58,6 +58,12 @@ Breadcrumbs::for('warehouses', function ($trail) {
     $trail->push(__('app.Warehouses'), route('warehouses'));
 });
 
+// Dashboard > Expenses
+Breadcrumbs::for('expenses', function ($trail) {
+    $trail->parent('dashboard');
+    $trail->push(__('app.Expenses_other'), route('expenses'));
+});
+
 // Dashboard > Suppliers
 Breadcrumbs::for('suppliers', function ($trail) {
     $trail->parent('dashboard');

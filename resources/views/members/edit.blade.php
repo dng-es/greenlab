@@ -38,6 +38,7 @@
             <br><a href="{{ route('sell', ['member' => $member]) }}" class="btn btn-lg btn-success"><i class="fa fa-cart-plus"></i> {{ __('app.Sell_new') }}</a>
                                     
             @include('credits.partials.btn', ['member' => $member])
+            @include('fees.partials.btn', ['member' => $member])
         </div>
     </div>
     <div class="col-md-9">
@@ -60,7 +61,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="code" class="control-label">Code</label>
                                         <input id="code" type="text" class="form-control @error('code') is-invalid @enderror" name="code" value="{{ $member->code }}" required autofocus>
@@ -71,7 +72,19 @@
                                         @enderror
                                     </div>
                                 </div>  
-                                <div class="col-md-4">
+
+                                <div class="col md-2">
+                                    <div class="form-group{{ $errors->has('vat') ? ' has-error' : '' }}">
+                                        <label for="vat" class="control-label">{{ __('app.Vat')}}</label>
+                                        <input id="vat" type="text" class="form-control @error('vat') is-invalid @enderror" name="vat" value="{{ $member->vat }}" required>
+                                        @error('vat')
+                                            <div class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </div>
+                                        @enderror
+                                    </div>  
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="name" class="control-label">{{ __('general.Name')}}</label>
                                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $member->name }}" required autofocus>
@@ -96,7 +109,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col md-4">
+                                <div class="col md-3">
                                     <div class="form-group{{ $errors->has('telephone') ? ' has-error' : '' }}">
                                         <label for="telephone" class="control-label">{{ __('general.Telephone')}}</label>
                                         <input id="telephone" type="number" class="form-control @error('telephone') is-invalid @enderror" name="telephone" value="{{ $member->telephone }}" required>
@@ -107,7 +120,7 @@
                                         @enderror
                                     </div>  
                                 </div>
-                                <div class="col md-4">
+                                <div class="col md-3">
                                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                         <label for="email" class="control-label">{{ __('general.Email')}}</label>
                                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $member->email }}" required>
@@ -118,7 +131,7 @@
                                         @enderror
                                     </div>  
                                 </div>
-                                <div class="col md-4">
+                                <div class="col md-3">
                                     <div class="form-group{{ $errors->has('born_at') ? ' has-error' : '' }}">
                                         <label for="born_at" class="control-label spice">{{ __('general.Born_at')}}</label>
                                         <input id="born_at" type="text" class="date-only form-control" name="born_at" value="{{ $member->born_at }}">
@@ -186,7 +199,10 @@
             </div>
 
            <div class="tab-pane fade" id="nav-cuotes" role="tabpanel" aria-labelledby="nav-cuotes-tab">
-        Cuotas
+                <div class="fa-3x loading_fees mt-5 text-center text-muted">
+                    <i class="fas fa-spinner fa-pulse"></i>
+                </div>
+                <div id="fees" data-pourl="{{ route('members.fees', ['member' => $member]) }}"></div>
             </div>
         </div>        
     </div>
@@ -208,6 +224,23 @@
         </div>
     </div>
 </div>
+
+<!-- Fee Modal -->
+<div class="modal fade" id="feesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ __('app.Fee') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('general.Close') }}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @include('fees.partials.new', ['member' => $member])
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -217,7 +250,7 @@
 <script type="text/javascript" src="{{ url('js/webcam.js') }}"></script>
 <script type="text/javascript" src="{{ url('js/member.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/counter.js') }}"></script> 
-<script type="text/javascript" src="{{ url('js/credit.js') }}"></script>
 <script type="text/javascript" src="{{ url('js/warehouses.js') }}"></script>
 <script type="text/javascript" src="{{ url('js/credits.js') }}"></script>
+<script type="text/javascript" src="{{ url('js/fees.js') }}"></script>
 @endsection

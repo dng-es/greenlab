@@ -58,9 +58,10 @@ jQuery(document).ready(function(){
 			var blob = b64toBlob(realData, contentType);
         }
 
-        var data_post = $(this).serialize() + '&imgBase64=' + dataURL;
+        var data_post = $(this).serialize() + '&imgBase64=' + dataURL,
+        	member_id = parseInt($('#member_id').val());
 
-        if (parseInt($('#member_id').val()) == 0){
+        if (member_id == 0){
         	//new member
 	        $.ajax({
 	            url: "/member/new",
@@ -88,7 +89,7 @@ jQuery(document).ready(function(){
         else{
 			//EDIT member
 	        $.ajax({
-	            url: "/member/edit",
+	            url: "/member/edit/" + member_id,
 	            type:'POST',
 	            data: data_post,
 	            success: function(data) {

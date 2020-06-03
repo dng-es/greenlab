@@ -10,6 +10,9 @@
 
 @include('layouts.messages')
 
+@if($update_app)
+<div class="alert alert-warning">Actualización disponible</div>
+@endif
 <div class="">
 	<div class="row">
 		<div class="col-md-3">
@@ -66,6 +69,10 @@
 				<li>
 					<span class="fa-li"><i class="far fa-square"></i></span>
 					<a href="{{ route('warehouses', ['type' => 'S']) }}">{{ __('app.Movements_out') }}</a>
+				</li>
+				<li>
+					<span class="fa-li"><i class="far fa-square"></i></span>
+					<a href="{{ route('expenses') }}">{{ __('app.Expenses_other') }}</a>
 				</li>
 			</ul>
 		</div>
@@ -133,6 +140,11 @@
 				<li>
 					<span class="fa-li"><i class="far fa-square"></i></span>
 					<a href="{{ route('reports', ['type' => 'top_supplier_year']) }}">{{ __('app.Top_supplier_year') }}</a>
+				</li>
+
+				<li>
+					<span class="fa-li"><i class="far fa-square"></i></span>
+					<a href="{{ route('reports', ['type' => 'top_supplier_year']) }}">{{ __('app.Incomes') }} - {{ __('app.Expenses') }}</a>
 				</li>
 			</ul>
 		</div>

@@ -2,29 +2,29 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class Fee extends Model
+class Expense extends Model
 {
-    
+	use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'user_id', 'member_id', 'init_at', 'end_at', 'price', 'notes'
+        'user_id', 'supplier_id', 'amount', 'price', 'total', 'notes', 'date_at'
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
-        'init_at' => 'date',
-        'end_at' => 'date',
+        'date_at' => 'date',
     ];
+
+    protected $hidden = [
+        'deleted_at',
+    ];    
 
     /**
      * The attributes that should be mutated to dates.
@@ -32,8 +32,10 @@ class Fee extends Model
      * @var array
      */
     protected $dates = [
+        'date_at',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'deleted_at'
     ];
 
     /**
@@ -47,12 +49,12 @@ class Fee extends Model
     }
 
     /**
-     * Get the member
+     * Get the supplier
      */
-    public function member()
+    public function supplier()
     {
-        return $this->belongsTo('App\Member')->withDefault([
+        return $this->belongsTo('App\Supplier')->withDefault([
             'name' => '[None]'
         ]); 
-    }  
+    }
 }
