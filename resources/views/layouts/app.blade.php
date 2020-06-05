@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ session()->get('site')->name }}</title>
 
 
     <!-- Fonts -->
@@ -16,6 +16,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link href="{{ url('vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     @yield('css')
 </head>
 <body>
@@ -34,6 +36,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript" src="{{ url('vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     @yield('js')
 </body>
 </html>

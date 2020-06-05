@@ -1,1 +1,1 @@
-<span id="fees-add" data-toggle="modal" data-target="#feesModal" title="{{ __('app.Fee_new') }}" class="btn btn-primary btn-lg mb-4 "><i class="fa fa-coins text-white"></i> {{ __('app.Fee_new') }}</span><br>
+<span id="fees-add" data-toggle="modal" data-target="#feesModal" title="{{ __('app.Fee_new') }}" class="btn btn-primary mt-1"><i class="fa fa-coins text-white"></i> {{ __('app.Fee_new') }}</span><br>

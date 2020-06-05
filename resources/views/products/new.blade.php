@@ -1,7 +1,11 @@
 @extends('layouts.appadmin')
 
 @section('content_admin')
+@if ($bar == 1)
+{{ Breadcrumbs::render('product_bar_new') }}
+@else
 {{ Breadcrumbs::render('product_new') }}
+@endif
 
 @include('layouts.messages')       
 
@@ -23,11 +27,16 @@
         <div class="col-md-3">
             <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
                 <label for="category_id" class="control-label">{{ __('app.Category')}}</label>
-                <select id="category_id" class="form-control" name="category_id">
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}" @php echo (old('category_id') == $category->id ? ' selected="selected" ' : '');@endphp>{{ $category->name }}</option>
-                @endforeach
-                </select>
+                <div class="input-group mb-3 my-group">
+                    <select id="category_id" class="form-control" name="category_id">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" @php echo (old('category_id') == $category->id ? ' selected="selected" ' : '');@endphp>{{ $category->name }}</option>
+                    @endforeach
+                    </select>
+                    <span class="input-group-append">
+                        <a class="btn btn-info" href="{{ route('category.new', ['bar' => $bar]) }}" title="{{ __('general.New'). ' '.__('app.Category') }}"><i class="fa fa-plus-circle text-white"></i></a>
+                    </span>
+                </div>
             </div>
         </div>
     </div>

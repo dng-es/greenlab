@@ -19,11 +19,11 @@
         <div class="imageProfile rounded-lg">            
             <img src="{{ $member->imageProfile() }}" width="100%" class="mb-3" />
             <h3 class="sectionHeader">{{ $member->name }} {{ $member->last_name }}</h3>
-            <h5 class="resumeFont"><small>{{ __('app.This_month') }}</small> <b><span id="total_month">{{ $total_month }}</span> {{ strtolower( __('app.Grams')) }}</b></h5>
+            <h5 class="resumeFont"><small>{{ __('app.This_month') }}</small> <b><span id="total_month">{{ number_format($total_month, 2, ',', '.') }}</span> {{ strtolower( __('app.Grams')) }}</b></h5>
 
             @include('credits.partials.btn', ['member' => $member])
             
-            <a title="{{ __('general.Update') }} {{ __('app.Member') }}" class="btn btn-success btn-lg" href="{{ route('member.edit', ['member' => $member->id]) }}"><i class="fa fa-user"></i> {{ __('general.Update') }} {{ __('app.Member') }}</a><br>
+            <a title="{{ __('general.Update') }} {{ __('app.Member') }}" class="btn btn-success mt-1" href="{{ route('member.edit', ['member' => $member->id]) }}"><i class="fa fa-user"></i> {{ __('general.Update') }} {{ __('app.Member') }}</a><br>
         </div>
     </div>
     <div class="col-md-9">
@@ -33,15 +33,15 @@
         <form class="form-horizontal" method="POST" action="" id="sell_form" accept-charset="UTF-8" >
             {{ csrf_field() }}
             <div class="row mb-3">
-                <div class="col-md-6">
+                <div class="col-md-9">
                     <button class="btn btn-warning" type="submit"><i class="fa fa-shopping-cart"></i> {{ __('app.Sell_finish') }}</button> 
                     
                     <button id="credit_finish" class="btn btn-info" type="button"><i class="fa fa-shopping-cart"></i> {{ __('app.Sell_finish_credit') }}</button> 
 
                     <button class="btn btn-danger" type="button" id="sell_reset"><i class="fa fa-history"></i> {{ __('app.Sell_reset') }}</button>
                 </div>
-                <div class="col-md-6">
-                    <h3 class="sectionHeader text-left mb-0">
+                <div class="col-md-3">
+                    <h3 class="sectionHeader text-right mb-0">
                         {{ __('app.Sell_total') }}: 
                         {{-- <span id="total_amount">0</span>gr. -  --}}
                         <span id="total_price">0</span>{{  __('app.Coin') }}
@@ -51,50 +51,32 @@
 
             <div class="clearfix"></div>
 
-            @php 
-                $section = '';
-            @endphp
+        <nav>
+            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-prod1-tab" data-toggle="tab" href="#nav-prod1" role="tab" aria-controls="nav-prod1" aria-selected="true">{{ __('app.Products') }}</a>
+                <a class="nav-item nav-link" id="nav-prod2-tab" data-toggle="tab" href="#nav-prod2" role="tab" aria-controls="nav-prod2" aria-selected="false">{{ __('app.Products') }} - {{ __('app.Bar') }}</a>
+            </div>
+        </nav>
 
-            @foreach ($products as $product)
-                @if ($product->category !== $section)
-                    @php $class_row = 'border border-left-0 border-bottom-0  border-right-0 border-dark';@endphp
-                @else
-                    @php 
-                        $class_row = '';
-                    @endphp
-                @endif
+        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+            <div class="pr-3 pl-3 tab-pane fade show active" id="nav-prod1" role="tabpanel" aria-labelledby="nav-prod1-tab">
                 @php 
-                    $section = $product->category;
+                    $prod1 = $products->filter(function ($item) {
+                        return ($item->bar == 0);
+                    });
                 @endphp
-                <div class="row resumeFont {{ $class_row }} @php echo ($product->bar == 1 ? 'bg-secondary text-white' : '')@endphp pt-1 pb-0">
-                    <div class="col-md-4 text-right">
-                        @if($product->bar == 0)
-                        <small class="text-primary">
-                            {{ $product->category }} - {{ $product->price }} {{  __('app.Coin') }}
-                            /{{ strtolower(__('app.Gram')) }}
-                        </small> 
-                        @else
-                        <small class="text-white">
-                            {{ $product->price }} {{  __('app.Coin') }}
-                        </small> 
-                        @endif
-                        <span class="resumeFontMedium">{{ $product->name }}</span>
-                    </div>
-                    <div class="col-md-1 text-right">
-                        <label for="prod{{ $product->id }}">{{ __('app.Amount') }}:</label>
-                    </div>
-                    <div class="col-md-2" mb-1>
-                        <input type="text" name="prod{{ $product->id }}" id="prod{{ $product->id }}" value="0" class="numeric text-right form-control-sm form-control amount" data-id="{{ $product->id }}" data-price="{{ $product->price }}" placeholder="gr." />
-                    </div>
 
-                    <div class="col-md-1 text-right">
-                        <label for="prod{{ $product->id }}">{{ __('app.Cost') }}:</label>
-                    </div>
-                    <div class="col-md-2 mb-1">
-                        <input type="text" name="money{{ $product->id }}" id="money{{ $product->id }}" value="0" class="numeric text-right form-control-sm form-control money" data-id="{{ $product->id }}" data-price="{{ $product->price }}" placeholder="Euros" />
-                    </div>
-                </div>
-            @endforeach
+                @include('sells.partials.list', ['products' => $prod1])
+            </div>
+            <div class="pr-3 pl-3 tab-pane fade" id="nav-prod2" role="tabpanel" aria-labelledby="nav-prod2-tab">
+                @php 
+                    $prod2 = $products->filter(function ($item) {
+                        return ($item->bar == 1);
+                    });
+                @endphp
+                @include('sells.partials.list', ['products' => $prod2])
+            </div>
+        </div>
         </form>
     </div>
     

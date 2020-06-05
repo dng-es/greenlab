@@ -13,20 +13,19 @@
                 @enderror
             </div> 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="form-group{{ $errors->has('supplier_id') ? ' has-error' : '' }}">
                 <label for="supplier_id" class="control-label">{{ __('app.Supplier')}}</label>
-                <select id="supplier_id" class="form-control" name="supplier_id">
-                @foreach($suppliers as $supplier)
-                    <option value="{{ $supplier->id }}" @php echo (old('supplier_id') == $supplier->id ? ' selected="selected" ' : '');@endphp>{{ $supplier->name }}</option>
-                @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group{{ $errors->has('supplier_id') ? ' has-error' : '' }}">
-                <label class="control-label">&nbsp;</label><br>
-                <a class="btn btn-info btn-sm" href="{{ route('supplier.new') }}" title="{{ __('general.New'). ' '.__('app.Supplier') }}"><i class="fa fa-plus-circle text-white"></i></a>
+                <div class="input-group mb-3 my-group">
+                    <select id="supplier_id" class="form-control" name="supplier_id">
+                    @foreach($suppliers as $supplier)
+                        <option value="{{ $supplier->id }}" @php echo (old('supplier_id') == $supplier->id ? ' selected="selected" ' : '');@endphp>{{ $supplier->name }}</option>
+                    @endforeach
+                    </select>
+                    <span class="input-group-append">
+                        <a class="btn btn-info" href="{{ route('supplier.new') }}" title="{{ __('general.New'). ' '.__('app.Supplier') }}"><i class="fa fa-plus-circle text-white"></i></a>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -62,7 +61,7 @@
 
         <div class="col-md-4">
             <div class="form-group">
-                <label for="total" class="control-label">{{ __('app.Total')}}</label>
+                <label for="total" class="control-label">{{ __('app.Total')}} <small>{{  __('app.Coin') }}</small></label>
                 <input id="total" type="number" step="any" class="text-right form-control @error('amount_real') is-invalid @enderror" name="total" value="{{ old('total') }}" required>
                 @error('total')
                     <div class="invalid-feedback" role="alert">

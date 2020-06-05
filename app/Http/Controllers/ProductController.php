@@ -38,16 +38,20 @@ class ProductController extends Controller
     {
         return $this->index($request, 1);
     }
+
     /**
      * Show the form for creating a new resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, $bar=0)
     {
-        $categories = Category::get();
-        return view('products.new', ['categories' => $categories]);
+        $categories = Category::where('bar', $bar)->get();
+        return view('products.new', [
+            'categories' => $categories,
+            'bar' => $bar
+        ]);
     }
 
     /**
@@ -68,7 +72,9 @@ class ProductController extends Controller
         }
         else $status = __('general.ErrorMessage');
 
-        return redirect()->route('product.edit', ['product' => $product->id])->with('status', $status);
+        $bar = $product->category()->first()->bar;
+
+        return redirect()->route('product.edit', ['product' => $product->id, 'bar' => $bar])->with('status', $status);
     }
 
     /**
@@ -77,10 +83,14 @@ class ProductController extends Controller
      * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(Product $product, $bar=0)
     {
-        $categories = Category::get();
-        return view('products.edit', ['product' => $product, 'categories' => $categories]);
+        $categories = Category::where('bar', $bar)->get();
+        return view('products.edit', [
+            'product' => $product, 
+            'categories' => $categories,
+            'bar' => $bar,
+        ]);
     }
 
     /**

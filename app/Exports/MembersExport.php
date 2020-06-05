@@ -20,9 +20,11 @@ class MembersExport implements FromCollection, WithHeadings, WithEvents, WithStr
     use RegistersEventListeners;
 
 	private $request;
+    private $credit;
 
-	function __construct($request){
+	function __construct($request, $credit){
 		$this->request = $request;
+        $this->credit = $credit;
 	}
 
     public static function afterSheet(AfterSheet $event)
@@ -36,6 +38,7 @@ class MembersExport implements FromCollection, WithHeadings, WithEvents, WithStr
         return [
             'ID',
             'Code',
+            __('app.Vat'),
             __('general.Name'),
             __('general.Last_name'),
             __('general.Telephone'),
@@ -43,6 +46,7 @@ class MembersExport implements FromCollection, WithHeadings, WithEvents, WithStr
             __('general.Image'),
             __('general.Born_at'),
             __('general.Notes'),
+            __('app.Credit'),
             __('general.Active'),
             __('general.Created_at'),
             __('general.Updated_at'),
@@ -59,6 +63,9 @@ class MembersExport implements FromCollection, WithHeadings, WithEvents, WithStr
         $export_end = $this->request->input('export_end', '');
 
         $data = DB::table('members')
+            ->when($this->credit, function($query){
+                return $query->where('credit', '<', 0);
+            })
             ->get();
 
 

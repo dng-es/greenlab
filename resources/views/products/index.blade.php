@@ -16,7 +16,7 @@
 
 <div class="row">
     <div class="col-md-1">
-        <a  class="btn btn-primary float-right" href="{{ route('product.new') }}" title="{{ __('general.New') }}"><i class="fa fa-plus"></i></a> 
+        <a  class="btn btn-primary float-right" href="{{ route('product.new', ['bar' => $bar]) }}" title="{{ __('general.New') }}"><i class="fa fa-plus"></i></a> 
         <br />
     </div>
     <div class="col-md-4">
@@ -32,7 +32,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-7">
         <div class="table-responsive">
             <table class="table table-hover table-striped">
                 <thead class="thead-dark">
@@ -65,7 +65,7 @@
                             @endif
                         </td>
                         <td class="text-right">
-                            <a class="btn btn-sm btn-outline-secondary" title="{{ __('general.Edit') }}" href="{{ route('product.edit', ['product' => $element->id]) }}"><i class="fa fa-edit"></i></a> 
+                            <a class="btn btn-sm btn-outline-secondary" title="{{ __('general.Edit') }}" href="{{ route('product.edit', ['product' => $element->id, 'bar' => $bar]) }}"><i class="fa fa-edit"></i></a> 
                             <button class="btn btn-sm btn-outline-danger btn-confirm" data-confirmbtn="{{ __('general.Delete') }}" data-msg="{{ __('general.SureToDelete') }}?" data-url="{{ route('product.destroy', ['product' => $element->id]) }}" title="{{ __('general.Delete') }}"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
@@ -76,11 +76,10 @@
 
         {{ $products->appends(['search' => $search, 'orderby' => $orderby, 'order' => $order])->links() }}
     </div>
-    <div class="col-md-4">
-        <h3 class="sectionHeader">{{ __('app.Entry_new') }}</h3>
-        @include('warehouses.partials.new', ['bar' => $bar])
+    <div class="col-md-5">
+        @include('warehouses.partials.new')
     </div>
-
+</div>
 @endsection
 
 @section('js')

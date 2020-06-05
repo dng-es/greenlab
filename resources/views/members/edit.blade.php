@@ -35,7 +35,7 @@
             <canvas id="canvas" style="position:absolute; top:0px; left: 3px"></canvas>
             <canvas id='canvas_blank' style='display:none'></canvas>
 
-            <br><a href="{{ route('sell', ['member' => $member]) }}" class="btn btn-lg btn-success"><i class="fa fa-cart-plus"></i> {{ __('app.Sell_new') }}</a>
+            <a href="{{ route('sell', ['member' => $member]) }}" class="btn btn-success mt-1"><i class="fa fa-cart-plus"></i> {{ __('app.Sell_new') }}</a>
                                     
             @include('credits.partials.btn', ['member' => $member])
             @include('fees.partials.btn', ['member' => $member])

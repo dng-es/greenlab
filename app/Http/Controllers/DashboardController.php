@@ -22,24 +22,23 @@ class DashboardController extends Controller
             ->get();
 
         $update_app = false;
-        //dd($updater->source()->getVersionInstalled());
         // Check if new version is available
-        if($updater->source()->isNewVersionAvailable()) {
-            $update_app = true;
+        // if($updater->source()->isNewVersionAvailable()) {
+        //     $update_app = true;
 
-            // // Get the current installed version
-            // echo $updater->source()->getVersionInstalled();
+        //     // // Get the current installed version
+        //     // echo $updater->source()->getVersionInstalled();
 
-            // // Get the new version available
-            // $versionAvailable = $updater->source()->getVersionAvailable();
+        //     // // Get the new version available
+        //     // $versionAvailable = $updater->source()->getVersionAvailable();
 
-            // // Create a release
-            // $release = $updater->source()->fetch($versionAvailable);
+        //     // // Create a release
+        //     // $release = $updater->source()->fetch($versionAvailable);
 
-            // // Run the update process
-            // $updater->source()->update($release);
+        //     // // Run the update process
+        //     // $updater->source()->update($release);
             
-        }
+        // }
 
         return view('dashboard', [
             'stock' => $stock, 

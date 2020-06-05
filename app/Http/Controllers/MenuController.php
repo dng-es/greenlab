@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Requests\MenuRequest;
 use App\Menu;
 use Illuminate\Http\Request;
 
@@ -56,7 +57,7 @@ class MenuController extends Controller
      * @param  \App\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Menu $menu)
+    public function update(MenuRequest $request, Menu $menu)
     {
         $menu->fontsize = $request->input('fontsize');
         $menu->fontcolor = $request->input('fontcolor');

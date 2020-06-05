@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Category;
+use App\Expense;
 use App\Member;
 use App\Product;
 use App\Supplier;
@@ -123,7 +124,15 @@ class ReportController extends Controller
                         ->where('categories.bar', 0)
                         ->whereYear('warehouses.created_at', $year)
                         ->groupBy('warehouses.supplier_id');
-                break;                            
+                break;
+            case 'balance':
+                $title =  __('app.Incomes') . ' - ' . __('app.Expenses') . ' ('. __('general.Monthly') . ')';
+                return $this->balance($title, $type, $month, $year, $year_ini, true);
+                break;     
+            case 'balance_annual':
+                $title =  __('app.Incomes') . ' - ' . __('app.Expenses') . ' ('. __('general.Annual') . ')';
+                return $this->balance($title, $type, $month, $year, $year_ini, false);
+                break;                                            
             default:
                 $data = null;
                 $title = '';
@@ -134,12 +143,63 @@ class ReportController extends Controller
                     ->limit($limit)
                     ->get();
 
-        return view('reports', [
+        return view('reports.reports', [
             'title' => $title, 
             'type' => $type, 
             'data' => $data, 
             'limit' => $limit,
             'order' => $order,
+            'month' => $month,
+            'year' => $year,
+            'year_ini' => $year_ini,
+            'show_months' => $show_months,
+        ]);
+    }
+
+    private function balance($title, $type, $month, $year, $year_ini, $show_months){
+        $total_incomes_products = Warehouse::leftJoin('products', 'products.id', 'warehouses.product_id')
+                ->leftJoin('categories', 'categories.id', 'products.category_id')
+                ->where('warehouses.type', 'S')
+                ->where('categories.bar', 0)
+                ->when($show_months, function($query) use ($month){
+                    return $query->whereMonth('warehouses.created_at', $month);
+                })
+                ->whereYear('warehouses.created_at', $year)
+                ->sum('total');
+
+        $total_incomes_bar = Warehouse::leftJoin('products', 'products.id', 'warehouses.product_id')
+                ->leftJoin('categories', 'categories.id', 'products.category_id')
+                ->where('warehouses.type', 'S')
+                ->where('categories.bar', 1)
+                ->when($show_months, function($query) use ($month){
+                    return $query->whereMonth('warehouses.created_at', $month);
+                })
+                ->whereYear('warehouses.created_at', $year)
+                ->sum('total');
+
+        $total_expenses_products = Warehouse::leftJoin('products', 'products.id', 'warehouses.product_id')
+                ->leftJoin('categories', 'categories.id', 'products.category_id')
+                ->where('warehouses.type', 'E')
+                ->where('categories.bar', 0)
+                ->when($show_months, function($query) use ($month){
+                    return $query->whereMonth('warehouses.created_at', $month);
+                })
+                ->whereYear('warehouses.created_at', $year)
+                ->sum('total');
+
+        $total_expenses_other = Expense::whereYear('expenses.date_at', $year)
+                        ->when($show_months, function($query) use ($month){
+                            return $query->whereMonth('expenses.date_at', $month);
+                        })
+                        ->sum('total');
+
+        return view('reports.reportBalance', [
+            'title' => $title,
+            'type' => $type,
+            'total_incomes_products' => $total_incomes_products, 
+            'total_incomes_bar' => $total_incomes_bar, 
+            'total_expenses_products' => $total_expenses_products, 
+            'total_expenses_other' => $total_expenses_other, 
             'month' => $month,
             'year' => $year,
             'year_ini' => $year_ini,

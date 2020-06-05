@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 
             // appending custom middleware 
+            \App\Http\Middleware\SiteMiddleware::class,
             \App\Http\Middleware\LanguageMiddleware::class,
         ],
 

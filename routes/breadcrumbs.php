@@ -22,6 +22,12 @@ Breadcrumbs::for('reports', function ($trail, $type) {
     $trail->push( __('general.Statistics'), route('reports',['type' => $type]));
 });
 
+// Dashboard > Site
+Breadcrumbs::for('site', function ($trail) {
+    $trail->parent('dashboard');
+    $trail->push(__('general.Site_config'), route('site.edit', ['site' => 1]));
+});
+
 // Dashboard > Menu
 Breadcrumbs::for('menu', function ($trail) {
     $trail->parent('dashboard');

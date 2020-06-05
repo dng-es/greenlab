@@ -44,8 +44,7 @@ jQuery(document).ready(function(){
 	//reset
     $(document).on('click', '#sell_reset',function(e){
         e.preventDefault();
-        var elem = $(this),
-            petition_id = parseInt(elem.data('poid'));
+        var elem = $(this);
 
         Swal.fire({
             title: "¿Estas seguro?",
@@ -89,8 +88,7 @@ jQuery(document).ready(function(){
         e.preventDefault();
         elemAlert.hide();
         var elem = $(this),
-        	url_form = elem.prop('acticion'),
-            petition_id = parseInt(elem.data('poid'));
+        	url_form = elem.prop('acticion');
 
         Swal.fire({
             title: "¿Estas seguro?",
@@ -119,7 +117,7 @@ jQuery(document).ready(function(){
                                 to: parseFloat(data.total_month),
                                 speed: 700,
                                 decimals: 2,
-                                separator: '.'
+                                separator: ','
                             });
 
                             var credit = parseFloat($('#credit_total').html());
@@ -128,7 +126,7 @@ jQuery(document).ready(function(){
                                 to: parseFloat(data.credit),
                                 speed: 700,
                                 decimals: 2,
-                                separator: '.'
+                                separator: ','
                             });
 
 		                    //$('#total_month').html(data.total_month);

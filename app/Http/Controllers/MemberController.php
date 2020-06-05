@@ -6,6 +6,8 @@ use App\Category;
 use App\Exports\MembersExport;
 use App\Http\Requests\MemberRequest;
 use App\Http\Requests\MemberUpdateRequest;
+use App\Http\Requests\MembersImportRequest;
+use App\Imports\MembersImport;
 use App\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -156,9 +158,9 @@ class MemberController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return Document XLSX, XLS, CSV
      */
-    public function export($exportOption = "xlsx", Request $request)
+    public function export($exportOption = "xlsx", $credit = false, Request $request)
     {
-        return Excel::download(new MembersExport($request), __('app.Members').'.'.$exportOption);
+        return Excel::download(new MembersExport($request, $credit), __('app.Members').'.'.$exportOption);
     }
     /**
      * Return resource.
@@ -226,13 +228,36 @@ class MemberController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function fees(Member $member)
-    {
+    public function fees(Member $member){
         $fees = $member->fees()
             ->with('user')
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
         return view('members.partials.fees', ['fees' => $fees]);
-    }      
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function import(Request $request)
+    {
+        if($request->hasFile('filename')){
+            $file = $request->file('filename');
+            //saneamos el nombre del archivo
+            $original_name = $file->getClientOriginalName();
+            $extension = \File::extension($original_name);
+            $file_name = time().".".$extension;
+            if (\Storage::disk('backup')->put($file_name,  \File::get($file))){
+                if (Excel::import(new MembersImport, storage_path('app/backup/').$file_name)){
+                    return redirect()->back()->with('status',__('general.UploadOk'))->with('status_mode', 'success');
+                }
+                else return redirect()->back()->with('status',__('general.UploadKo'))->with('status_mode', 'error');
+            }
+
+        }
+    }
 }

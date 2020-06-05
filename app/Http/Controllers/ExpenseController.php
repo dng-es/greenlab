@@ -7,6 +7,7 @@ use App\Exports\ExpensesExport;
 use App\Http\Requests\ExpenseRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ExpenseController extends Controller
 {

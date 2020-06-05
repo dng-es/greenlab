@@ -76,6 +76,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // })->name('backup');
 
+        Route::get('/sites/edit/{site}', 'SiteController@edit')->name('site.edit');
+        Route::post('/sites/edit/{site}', 'SiteController@update');
+
         Route::get('/menu', 'MenuController@show')->name('menu');
         Route::get('/menu/edit/{menu}', 'MenuController@edit')->name('menu.edit');
         Route::post('/menu/edit/{menu}', 'MenuController@update');
@@ -107,11 +110,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 		Route::get('/productsbar', 'ProductController@bar')->name('products.bar');
         Route::get('/products', 'ProductController@index')->name('products');
-		Route::get('/product/destroy/{product}', 'ProductController@destroy')->name('product.destroy');
-        Route::get('/product/new', 'ProductController@create')->name('product.new');
-        Route::post('/product/new', 'ProductController@store');
-        Route::get('/product/edit/{product}', 'ProductController@edit')->name('product.edit');
-        Route::post('/product/edit/{product}', 'ProductController@update');        
+		
+        Route::get('/product/destroy/{product}', 'ProductController@destroy')->name('product.destroy');
+        
+        Route::get('/product/new/{bar?}', 'ProductController@create')->name('product.new');
+        Route::post('/product/new/{bar?}', 'ProductController@store');
+        Route::get('/product/edit/{product}/{bar?}', 'ProductController@edit')->name('product.edit');
+        Route::post('/product/edit/{product}/{bar?}', 'ProductController@update');        
         Route::get('/products/export/{exportOption?}', 'ProductController@export')->name('products.export');
 
         Route::get('/members', 'MemberController@index')->name('members');     
@@ -120,7 +125,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/member/new', 'MemberController@create')->name('member.new');
         Route::post('/member/new', 'MemberController@store')->name('member.create');
         Route::post('/member/edit/', 'MemberController@update');        
-        Route::get('/members/export/{exportOption?}', 'MemberController@export')->name('members.export');        
+        Route::get('/members/export/{exportOption?}/{credit?}', 'MemberController@export')->name('members.export');
+        Route::post('/members/import', 'MemberController@import')->name('members.import');        
         
         Route::get('/members/search/{search?}', 'MemberController@search')->name('members.search');
         Route::get('/members/warehouses/{member}', 'MemberController@warehouses')->name('members.warehouses');

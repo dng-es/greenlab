@@ -9,11 +9,12 @@ use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
-class ExpensesExport implements FromCollection, WithHeadings, WithEvents, WithStrictNullComparison, ShouldAutoSize
+class ExpensesExport implements FromCollection, WithHeadings, WithEvents, WithStrictNullComparison, ShouldAutoSize, WithMapping
 {
 
     use RegistersEventListeners;
@@ -43,7 +44,22 @@ class ExpensesExport implements FromCollection, WithHeadings, WithEvents, WithSt
             __('general.Date'),
             __('general.Created_at'),
         ];
-    } 
+    }
+
+    public function map($data): array
+    {
+        $columns = [
+            $data['name'],
+            $data['notes'],
+            $data['amount'],
+            $data['price'],
+            $data['total'],
+            $data['date_at']->format('Y-m-d'),
+            $data['created_at']
+        ];
+
+        return $columns;
+    }    
 
     /**
     * @return \Illuminate\Support\Collection

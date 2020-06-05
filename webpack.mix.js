@@ -15,4 +15,5 @@ mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css');
 
 mix.copyDirectory('node_modules/bootstrap-colorpicker', 'public/vendor/bootstrap-colorpicker');
+mix.copyDirectory('node_modules/bootstrap-select', 'public/vendor/bootstrap-select');
 mix.copyDirectory('resources/fonts', 'public/fonts');   

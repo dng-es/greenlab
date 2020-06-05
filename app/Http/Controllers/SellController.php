@@ -87,11 +87,12 @@ class SellController extends Controller
                     ->whereYear('warehouses.created_at', Carbon::now()->format('Y'))
                     ->sum('amount_real');
 
-        if ($request->input('credit') == true){
+        if ( $request->input('credit') == "true"){
             Credit::create([
                 'user_id' => Auth::user()->id,
                 'member_id' => $member->id,
                 'credit' => -$total_price,
+                'notes' => '',
             ]);
 
             $member = Member::find($member->id);

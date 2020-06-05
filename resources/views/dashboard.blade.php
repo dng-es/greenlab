@@ -9,7 +9,6 @@
 {{ Breadcrumbs::render('dashboard') }}
 
 @include('layouts.messages')
-test
 @if($update_app)
 <div class="alert alert-warning">Actualización disponible</div>
 @endif
@@ -32,18 +31,6 @@ test
 				</li>
 			</ul>
 
-			<h3 class=""><i class="fa fa-glass-cheers"></i> {{ __('app.Bar') }}</h3>
-			<ul class="fa-ul">
-				<li>
-					<span class="fa-li"><i class="far fa-square"></i></span>
-					<a href="{{ route('bar') }}">{{ __('app.Categories') }}</a>
-				</li>
-				<li>
-					<span class="fa-li"><i class="far fa-square"></i></span>
-					<a href="{{ route('products.bar') }}">{{ __('app.Products') }}</a>
-				</li>
-			</ul>
-
 			<h3 class=""><i class="fa fa-cannabis"></i> Cannabis</h3>
 			<ul class="fa-ul">
 				<li>
@@ -53,6 +40,18 @@ test
 				<li>
 					<span class="fa-li"><i class="far fa-square"></i></span>
 					<a href="{{ route('products') }}">{{ __('app.Products') }}</a>
+				</li>
+			</ul>
+
+			<h3 class=""><i class="fa fa-glass-cheers"></i> {{ __('app.Bar') }}</h3>
+			<ul class="fa-ul">
+				<li>
+					<span class="fa-li"><i class="far fa-square"></i></span>
+					<a href="{{ route('bar') }}">{{ __('app.Categories') }}</a>
+				</li>
+				<li>
+					<span class="fa-li"><i class="far fa-square"></i></span>
+					<a href="{{ route('products.bar') }}">{{ __('app.Products') }}</a>
 				</li>
 			</ul>
 
@@ -81,7 +80,12 @@ test
 			<ul class="fa-ul">
 				<li>
 					<span class="fa-li"><i class="far fa-square"></i></span>
-					<a href="{{ route('menu.edit', ['menu' => 1]) }}">{{ __('app.Menu') }}</a>
+					<a href="{{ route('site.edit', ['site' => session()->get('site')->id]) }}">{{ __('general.Site_config') }}</a>
+				</li>	
+
+				<li>
+					<span class="fa-li"><i class="far fa-square"></i></span>
+					<a href="{{ route('menu.edit', ['menu' => session()->get('site')->id]) }}">{{ __('app.Menu') }}</a>
 				</li>
 
 				<li>
@@ -96,57 +100,17 @@ test
 
 				<li>
 					<span class="fa-li"><i class="far fa-square"></i></span>
+					<a href="#" data-toggle="modal" data-target="#membersImportModal">{{ __('app.Members_import') }}</a>
+				</li>
+
+				<li>
+					<span class="fa-li"><i class="far fa-square"></i></span>
 					<a href="#" id="backup" data-url="{{ route('backup') }}">{{ __('general.Backup') }}</a>
 				</li>
 			</ul>
 
 			<h3 class=""><i class="fa fa-chart-line"></i> {{ __('general.Statistics') }}</h3>
-			<ul class="fa-ul">
-				<li>
-					<span class="fa-li"><i class="far fa-square"></i></span>
-					<a href="{{ route('reports', ['type' => 'top_month']) }}">{{ __('app.Top_month') }}</a>
-				</li>
-
-				<li>
-					<span class="fa-li"><i class="far fa-square"></i></span>
-					<a href="{{ route('reports', ['type' => 'top_year']) }}">{{ __('app.Top_year') }}</a>
-				</li>
-
-				<li>
-					<span class="fa-li"><i class="far fa-square"></i></span>
-					<a href="{{ route('reports', ['type' => 'top_category_month']) }}">{{ __('app.Top_category_month') }}</a>
-				</li>
-
-				<li>
-					<span class="fa-li"><i class="far fa-square"></i></span>
-					<a href="{{ route('reports', ['type' => 'top_category_year']) }}">{{ __('app.Top_category_year') }}</a>
-				</li>				
-
-				<li>
-					<span class="fa-li"><i class="far fa-square"></i></span>
-					<a href="{{ route('reports', ['type' => 'top_member_month']) }}">{{ __('app.Top_member_month') }}</a>
-				</li>
-
-				<li>
-					<span class="fa-li"><i class="far fa-square"></i></span>
-					<a href="{{ route('reports', ['type' => 'top_member_year']) }}">{{ __('app.Top_member_year') }}</a>
-				</li>
-
-				<li>
-					<span class="fa-li"><i class="far fa-square"></i></span>
-					<a href="{{ route('reports', ['type' => 'top_supplier_month']) }}">{{ __('app.Top_supplier_month') }}</a>
-				</li>
-
-				<li>
-					<span class="fa-li"><i class="far fa-square"></i></span>
-					<a href="{{ route('reports', ['type' => 'top_supplier_year']) }}">{{ __('app.Top_supplier_year') }}</a>
-				</li>
-
-				<li>
-					<span class="fa-li"><i class="far fa-square"></i></span>
-					<a href="{{ route('reports', ['type' => 'top_supplier_year']) }}">{{ __('app.Incomes') }} - {{ __('app.Expenses') }}</a>
-				</li>
-			</ul>
+			@include('reports/partials/list')
 		</div>
 		<div class="col-md-6">
 			<h3 class="sectionHeader">Stock</h3>
@@ -172,6 +136,7 @@ test
 	</div>
 </div>
 
+@include('members.partials.import')
 <!-- Modal -->
 <div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -191,6 +156,7 @@ test
 @endsection
 
 @section('js')
+<script type="text/javascript" src="{{ url('vendor/bootstrap-filestyle-2.1.0/src/bootstrap-filestyle.min.js') }}"></script>
 <script type="text/javascript" src="{{ url('vendor/momentjs/momentjs.js') }}"></script>
 <script type="text/javascript" src="{{ url('vendor/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js') }}"></script>
 <script type="text/javascript" src="{{ url('js/dates.js') }}"></script>

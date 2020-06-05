@@ -62,7 +62,7 @@ class WarehouseController extends Controller
                 'amount'    => $request->input('amount'),
                 'amount_real'    => $request->input('amount_real'),
                 'total'    => $request->input('total'),
-                'type'    => 'E',
+                'type'    => $request->input('type'),
             ])){    
             $message = __('general.InsertOkMessage');
         }
