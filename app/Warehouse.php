@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\WarehouseDeleteEvent;
 use App\Events\WarehouseEvent;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,6 +33,7 @@ class Warehouse extends Model
      */
     protected $dispatchesEvents = [
         'created' => WarehouseEvent::class,
+        'deleted' => WarehouseDeleteEvent::class,
     ];    
 
     /**

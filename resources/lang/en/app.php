@@ -2,6 +2,7 @@
 
 return
 [
+	'ProductMain' => 'Cannabis',
 	'Coin' => '£',
 	'Categories' => 'Categories',
 	'Category' => 'Category',
@@ -22,6 +23,7 @@ return
 	'Member_balance' => 'Balance',
 	'Members_with_credit' => 'Members with credit',
 	'Members_import' => 'Import members',
+	'Documents' => 'Documents',
 	'Fees' => 'Fees',
 	'Fee' => 'Fee',
 	'Fee_new' => 'New fee',
@@ -49,6 +51,7 @@ return
 	'Top_supplier_month' => 'Top month suppliers',
 	'Top_supplier_year' => 'Top year suppliers',
 	'Bar' => 'Bar',
+	'Unit' => 'Unit',
 	'Credits' => 'Credits',
 	'Credit' => 'Credit',
 	'Credit_add' => 'Add Credit',
@@ -57,4 +60,5 @@ return
 	'Incomes' => 'Incomes',
 	'Expenses' => 'Expenses',
 	'Expenses_other' => 'Other expenses',
+	'Acept_condicitions' => 'Acept condicitions',
 ];

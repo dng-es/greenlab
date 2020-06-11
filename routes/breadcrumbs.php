@@ -177,5 +177,5 @@ Breadcrumbs::register('member_new', function ($breadcrumbs) {
 // Dashboard > Members > Edit
 Breadcrumbs::register('member_edit', function ($breadcrumbs, $member) {
     $breadcrumbs->parent('members');
-    $breadcrumbs->push($member->name, route('member.edit', $member->id));
+    $breadcrumbs->push($member->name . ' ' . $member->last_name, route('member.edit', $member->id));
 });

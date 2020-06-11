@@ -2,6 +2,7 @@
 
 return
 [
+	'ProductMain' => 'Cannabis',
 	'Coin' => '€',
 	'Categories' => 'Categorías',
 	'Category' => 'Categoría',
@@ -22,6 +23,7 @@ return
 	'Member_balance' => 'Saldo',
 	'Members_with_credit' => 'Socios con cŕedito',
 	'Members_import' => 'Importar socios',
+	'Documents' => 'Documentos',
 	'Fees' => 'Cuotas',
 	'Fee' => 'Cuota',
 	'Fee_new' => 'Nueva cuota',
@@ -55,6 +57,7 @@ return
 	'Top_supplier_month' => 'Mayor proveedor del mes',
 	'Top_supplier_year' => 'Mayor proveedor del año',
 	'Bar' => 'Bar',
+	'Unit' => 'Und',
 	'Credits' => 'Créditos',
 	'Credit' => 'Crédito',
 	'Credit_add' => 'Añadir crédito',
@@ -63,4 +66,5 @@ return
 	'Incomes' => 'Ingresos',
 	'Expenses' => 'Gastos',	
 	'Expenses_other' => 'Otros gastos',	
+	'Acept_condicitions' => 'Aceptación de condiciones',	
 ];

@@ -1,11 +1,11 @@
 @php 
     $section = '';
-    $class_row = 'bg-success';
+    $class_row = 'bg-secondary text-white';
 @endphp
 
 @foreach ($products as $product)
     @if ($product->category !== $section)
-        @php $class_row = ($class_row == 'bg-dark text-white' ? 'bg-success' : 'bg-dark text-white');@endphp
+        @php $class_row = ($class_row == 'bg-dark text-white' ? 'bg-secondary text-white' : 'bg-dark text-white');@endphp
     @endif
     @php 
         $section = $product->category;

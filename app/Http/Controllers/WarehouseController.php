@@ -83,4 +83,15 @@ class WarehouseController extends Controller
         return Excel::download(new WarehousesExport($type, $request), __('app.Warehouses'). '.'.$exportOption);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Warehouse $warehouse)
+    {
+        $warehouse->delete();
+        return redirect()->back()->with('status', __('general.DeleteOkMessage'));
+    }
 }

@@ -30,7 +30,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th><orderby field="suppliers.name" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Supplier') }}</th>
-                        <th class="text-right"><orderby field="notes" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('general.Notes') }}</th>
+                        <th class="text-left"><orderby field="notes" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('general.Notes') }}</th>
                         <th class="text-right"><orderby field="amount" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Amount') }}</th>
                         <th class="text-right"><orderby field="price" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Price') }}</th>
                         <th class="text-right"><orderby field="total" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Total') }}</th>
@@ -43,7 +43,7 @@
                     @foreach ($expenses as $element)
                     <tr>
                         <td>{{ $element->supplier }}</td>
-                        <td class="text-right"><small>{{ $element->notes }}</small></td>
+                        <td class="text-left"><small>{{ $element->notes }}</small></td>
                         <td class="text-right">
                             {{ $element->amount }}
                         </td>

@@ -1,4 +1,3 @@
-
 jQuery(document).ready(function(){
 
     var page_credits = 1;
@@ -33,7 +32,8 @@ jQuery(document).ready(function(){
     $('#creditModal').on('hidden.bs.modal', function (e) {
         resetMessages();
         //$('#member_id').val(0);
-        $('#credit').val(0);
+        $('#credit').val('');
+        $('#credit_notes').val('');
     })
 
     function resetform(){

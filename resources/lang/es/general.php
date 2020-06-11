@@ -54,7 +54,7 @@ return [
     'Terms_accept' => 'Acepto los Términos y condiciones',
     'Name' => 'Nombre',
     'Last_name' => 'Apellidos',
-    'Born_at' => 'Fecha de nacimiento',
+    'Born_at' => 'Fch. nacimiento',
     'Telephone' => 'Teléfono',
     'Email' => 'Email',
     'Date' => 'Fecha',
@@ -71,6 +71,7 @@ return [
     'UploadOk' => 'Carga realizada con éxito',
     'UploadKo' => 'Error en la carga',
     'Upload_by' => 'Subido por',
+    'Created_by' => 'Creado por',
     'Created_at' => 'Fecha de creación',
     'Updated_at' => 'Fecha de modificación',
     'Deleted_at' => 'Fecha de eliminación',
@@ -108,4 +109,6 @@ return [
     'Annual' => "Anual",
     'Monthly' => "Mensual",
     'Site_config' => "Configuración del sitio",
+    'Generate_random' => "Generar aleatorio",
+    'Claim' => "Todos los derechos reservados. Producto lienciado.",
 ];

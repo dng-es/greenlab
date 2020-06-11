@@ -26,6 +26,7 @@ class CreateMembersTable extends Migration
             $table->text('notes');
             $table->float('credit', 8, 2)->default(0);
             $table->smallInteger('active')->default(1);
+            $table->bigInteger('user_id')->default(0);
             $table->timestamps();
         });
     }

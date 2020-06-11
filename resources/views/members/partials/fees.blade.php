@@ -2,7 +2,7 @@
     <table class="table table-hover table-striped table-sm resumeFont">
         <thead class="thead-dark">
             <tr>
-                <th>{{ __('general.User') }}</th>
+                <th>{{ __('general.Created_by') }}</th>
                 <th class="text-right">{{ __('app.Price') }}</th>
                 <th class="text-right">{{ __('general.Date_ini') }}</th>
                 <th class="text-right">{{ __('general.Date_end') }}</th>

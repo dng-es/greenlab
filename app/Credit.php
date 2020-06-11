@@ -31,7 +31,7 @@ class Credit extends Model
     public function user()
     {
         return $this->belongsTo('App\User')->withDefault([
-            'name' => '[Deleted]'
+            'name' => '[None]'
         ]); 
     }
 

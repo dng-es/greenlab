@@ -33,7 +33,7 @@ $total_class = ($total > 0 ? 'text-success' : 'text-danger');
 				<h4>{{ __('app.Incomes') }}</h4>
 				<table class="table table-hover table-striped resumeFont">
 					<tr>
-						<td>Cannabis</td>
+						<td>{{ __('app.ProductMain') }}</td>
 						<td class="text-right">{{ number_format($total_incomes_products, 2, ',', '.') }} {{  __('app.Coin') }}</td>
 					</tr>
 					<tr>
@@ -50,7 +50,7 @@ $total_class = ($total > 0 ? 'text-success' : 'text-danger');
 				<h4>{{ __('app.Expenses') }}</h4>
 				<table class="table table-hover table-striped resumeFont">
 					<tr>
-						<td>Cannabis</td>
+						<td>{{ __('app.ProductMain') }}</td>
 						<td class="text-right">{{ number_format($total_expenses_products, 2, ',', '.') }} {{  __('app.Coin') }}</td>
 					</tr>				
 					<tr>

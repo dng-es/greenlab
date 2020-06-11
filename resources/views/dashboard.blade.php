@@ -31,7 +31,7 @@
 				</li>
 			</ul>
 
-			<h3 class=""><i class="fa fa-cannabis"></i> Cannabis</h3>
+			<h3 class=""><i class="fa fa-cannabis"></i> {{ __('app.ProductMain') }}</h3>
 			<ul class="fa-ul">
 				<li>
 					<span class="fa-li"><i class="far fa-square"></i></span>

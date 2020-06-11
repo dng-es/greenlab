@@ -17,11 +17,9 @@
 <div class="row">
     <div class="col-md-1">
         <a  class="btn btn-primary float-right" href="{{ route('product.new', ['bar' => $bar]) }}" title="{{ __('general.New') }}"><i class="fa fa-plus"></i></a> 
-        <br />
     </div>
     <div class="col-md-4">
         <export btnstyle="btn-primary" url="{{ route('products.export') }}" label="{{ __('general.Export') }}" btnstyle="btn-success" dates="false"></export>
-        <br />
     </div>
     <div class="col-md-5">
         <search btnstyle="btn-primary" label="{{ __('general.Search') }}" btnstyle="btn-primary" inputvalue="{{ $search }}"></search>
@@ -32,7 +30,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-8">
         <div class="table-responsive">
             <table class="table table-hover table-striped">
                 <thead class="thead-dark">
@@ -55,6 +53,8 @@
                             {{ number_format($element->amount, 2, '.', ',') }} 
                             @if($bar == 0)
                             <small><em class="text-muted">{{ strtolower(__('app.Grams')) }}</em></small>
+                            @else
+                            <small><em class="text-muted">{{ strtolower(__('app.Unit')) }}</em></small>
                             @endif
                         </td>
                         <td class="text-right">
@@ -76,8 +76,12 @@
 
         {{ $products->appends(['search' => $search, 'orderby' => $orderby, 'order' => $order])->links() }}
     </div>
-    <div class="col-md-5">
-        @include('warehouses.partials.new')
+    <div class="col-md-4">
+        <div class="card border-0">
+            <div class="card-body">
+                @include('warehouses.partials.new')
+            </div>
+        </div>
     </div>
 </div>
 @endsection

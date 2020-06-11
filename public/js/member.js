@@ -6,6 +6,12 @@ jQuery(document).ready(function(){
  //        }
  //    });
 
+	$('#random-code').click(function(e){
+		e.preventDefault();
+		var code = Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 8);
+		$('#code').val(code);
+	})
+
  	var ini_born_at = $('#born_at').val();
 
     $('#memberModal').on('hidden.bs.modal', function (e) {

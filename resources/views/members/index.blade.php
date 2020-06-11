@@ -12,12 +12,10 @@
 
 <div class="row">
     <div class="col-md-1">
-        <button class="btn btn-primary float-right" title="{{ __('general.New') }}" data-toggle="modal" data-target="#memberModal"><i class="fa fa-plus"></i></button> 
-        <br />
+        <button class="btn btn-primary float-right" title="{{ __('general.New') }}" data-toggle="modal" data-target="#memberModal"><i class="fa fa-plus"></i></button>
     </div>
     <div class="col-md-4">
         <export btnstyle="btn-primary" url="{{ route('members.export') }}" label="{{ __('general.Export') }}" btnstyle="btn-success" dates="false"></export>
-        <br />
     </div>
     <div class="col-md-5">
         <search btnstyle="btn-primary" label="{{ __('general.Search') }}" btnstyle="btn-primary" inputvalue="{{ $search }}"></search>
@@ -31,6 +29,7 @@
     <table class="table table-hover table-striped">
         <thead class="thead-dark">
             <tr>
+                <th><orderby field="vat" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Vat') }}</th>
                 <th><orderby field="last_name" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Member') }}</th>
                 <th class="text-right"><orderby field="telephone" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('general.Telephone') }}</th>
                 <th><orderby field="email" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('general.Email') }}</th>
@@ -41,6 +40,7 @@
         <tbody>
             @foreach ($members as $element)
             <tr>
+                <td>{{ $element->vat }}</td>
                 <td>
                     {{ $element->last_name }}, {{ $element->name }}</em></small>
                     @if ($element->notes != '')
@@ -59,6 +59,8 @@
                     @endif
                 </td>
                 <td class="text-right">
+                    <a class="btn btn-sm btn-outline-info" title="{{ __('app.Sell_new') }}" href="{{ route('sell', ['member' => $element->id]) }}"><i class="fa fa-cart-plus"></i></a> 
+                    
                     <a class="btn btn-sm btn-outline-secondary" title="{{ __('general.Edit') }}" href="{{ route('member.edit', ['member' => $element->id]) }}"><i class="fa fa-edit"></i></a> 
                 </td>
             </tr>

@@ -71,6 +71,7 @@ return [
     'Image' => 'Image',
     'UploadOk' => 'Upload successful',
     'UploadKo' => 'Upload unsuccessful',
+    'Created_by' => 'Created by',
     'Created_at' => 'Created at',
     'Updated_at' => 'Updated at',
     'Deleted_at' => 'Deleted at',
@@ -107,4 +108,6 @@ return [
     'Annual' => "Annual",
     'Monthly' => "Monthly",
     'Site_config' => "Site config",
+    'Generate_random' => "Generate random",
+    'Claim' => "All rights resrverd. Licensed Product.",
 ];

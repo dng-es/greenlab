@@ -21,7 +21,7 @@ class Member extends Model
      * @var array
      */
     protected $fillable = [
-        'code', 'vat', 'name', 'last_name', 'telephone', 'email', 'picture', 'born_at', 'active', 'notes', 'credit'
+        'code', 'vat', 'name', 'last_name', 'telephone', 'email', 'picture', 'born_at', 'active', 'notes', 'credit', 'user_id'
     ];
 
     /**
@@ -45,6 +45,16 @@ class Member extends Model
     // ];
 
     /**
+     * Get the user
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User')->withDefault([
+            'name' => '[None]'
+        ]); 
+    }    
+
+    /**
      * Get the fees
      */
     public function fees()
@@ -66,7 +76,15 @@ class Member extends Model
     public function credits()
     {
         return $this->hasMany('App\Credit');
-    }    
+    }   
+
+    /**
+     * Get the documents
+     */
+    public function documents()
+    {
+        return $this->hasMany('App\Document');
+    }   
 
     public function imageProfile()
     {

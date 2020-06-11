@@ -138,6 +138,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/members/fees/{member}', 'MemberController@fees')->name('members.fees');
         Route::get('/fee/new', 'FeeController@create')->name('fees.new');
         Route::post('/fee/new', 'FeeController@store')->name('fees.create');        
+        
+        Route::post('/member/document/new/{member}', 'DocumentController@store')->name('member.document.new');
+        Route::get('/member/document/destroy/{document}', 'DocumentController@destroy')->name('member.document.destroy');        
 
         Route::get('/sell/{member?}', 'SellController@create')->name('sell');
         Route::post('/sell/{member}', 'SellController@store'); 
@@ -151,7 +154,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/warehouses/{type?}', 'WarehouseController@index')->name('warehouses');
         Route::get('/warehouse/export/{type}/{exportOption?}', 'WarehouseController@export')->name('warehouses.export');
         Route::post('/warehouse/', 'WarehouseController@store')->name('warehouse.new'); 
-
+        Route::get('/warehouse/destroy/{warehouse}', 'WarehouseController@destroy')->name('warehouse.destroy');
 
         Route::get('/expenses', 'ExpenseController@index')->name('expenses');
         Route::post('/expense/', 'ExpenseController@store')->name('expenses.new'); 

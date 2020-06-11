@@ -40,7 +40,20 @@ const app = new Vue({
 
 jQuery(window).ready(function(){
 
-	$("#toTop").click(function (){
+	$(".notes-up").click(function (e){
+    	e.preventDefault();
+    	$(this).next().next('.notes-down').slideToggle();
+
+    	var icon = $(this).find('.fa');
+    	if (icon.hasClass('fa-plus-circle')){
+    		icon.removeClass('fa-plus-circle').addClass('fa-minus-circle')
+    	}
+    	else{
+    		icon.removeClass('fa-minus-circle').addClass('fa-plus-circle')
+    	}
+    });
+
+    $("#toTop").click(function (){
         $("html, body").animate({scrollTop: 0}, 500);
     });
 

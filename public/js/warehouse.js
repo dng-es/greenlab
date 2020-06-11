@@ -6,6 +6,6 @@ jQuery(document).ready(function(){
 
 		if( $("#amount_real").val() == '') $("#amount_real").val(amount);
 
-		$('#total').val(price * amount);
+		//$('#total').val(price * amount);
 	})
 });

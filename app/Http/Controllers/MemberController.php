@@ -23,7 +23,10 @@ class MemberController extends Controller
 
         //busquedas
         $search =  $request->input("search", '');
-        //if ($search != "") $members = $members->where('last_name', 'like', '%'.$search.'%');
+        if ($search != "") $members = $members->where('last_name', 'like', '%'.$search.'%')
+            ->orWhere('name', 'like', '%'.$search.'%')
+            ->orWhere('vat', 'like', '%'.$search.'%')
+            ->orWhere('code', 'like', '%'.$search.'%');
 
 
         //ordernacion del listado
@@ -65,6 +68,7 @@ class MemberController extends Controller
         }
 
         if ($member = Member::create([
+                'user_id'     => Auth::user()->id,
                 'code'     => $request->input('code'),
                 'vat'     => $request->input('vat'),
                 'name'     => $request->input('name'),
@@ -90,9 +94,12 @@ class MemberController extends Controller
     public function edit(Request $request,Member $member)
     {
         $total_month = $member->warehouses()
-            ->where('type', 'S')
-            ->whereMonth('created_at', Carbon::now()->format('m'))
-            ->whereYear('created_at', Carbon::now()->format('Y'))
+            ->leftJoin('products', 'products.id', 'warehouses.product_id')
+            ->leftJoin('categories', 'categories.id', 'products.category_id')
+            ->where('warehouses.type', 'S')
+            ->where('categories.bar', 0)
+            ->whereMonth('warehouses.created_at', Carbon::now()->format('m'))
+            ->whereYear('warehouses.created_at', Carbon::now()->format('Y'))
             ->sum('amount_real');
 
         return view('members.edit', [
@@ -171,14 +178,14 @@ class MemberController extends Controller
     public function search($search = '')
     {
         return Member::orderBy('name')
-                ->orderBy('last_name')
-                ->when($search != '', function($query) use ($search){
-                    return $query->where('code', $search)
-                                ->orWhere('name', 'LIKE', '%'.$search.'%')
-                                ->orWhere('last_name', 'LIKE', '%'.$search.'%')
-                                ->orWhere('vat', 'LIKE', '%'.$search.'%');
-                })
-                ->get();
+            ->when($search != '', function($query) use ($search){
+                return $query->where('code', $search)
+                            ->orWhere('name', 'LIKE', '%'.$search.'%')
+                            ->orWhere('last_name', 'LIKE', '%'.$search.'%')
+                            ->orWhere('vat', 'LIKE', '%'.$search.'%');
+            })
+            ->orderBy('last_name')
+            ->get();
     }
 
     /**
@@ -252,12 +259,10 @@ class MemberController extends Controller
             $extension = \File::extension($original_name);
             $file_name = time().".".$extension;
             if (\Storage::disk('backup')->put($file_name,  \File::get($file))){
-                if (Excel::import(new MembersImport, storage_path('app/backup/').$file_name)){
+                if (Excel::import(new MembersImport, storage_path('app/backup/').$file_name))
                     return redirect()->back()->with('status',__('general.UploadOk'))->with('status_mode', 'success');
-                }
                 else return redirect()->back()->with('status',__('general.UploadKo'))->with('status_mode', 'error');
             }
-
         }
     }
 }

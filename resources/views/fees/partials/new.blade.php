@@ -5,13 +5,13 @@
     <input type="hidden" name="member_id" id="fees_member_id" value="{{ $member->id }}" />
 
     <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-        <label for="price" class="control-label">{{ __('app.Price') }}:</label>
-        <input id="price" type="number" class="text-right form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" placeholder="{{  __('app.Coin') }}" required autofocus>
+        <label for="price" class="control-label">{{ __('app.Cost') }}:</label>
+        <input id="price" type="number" class="border-0 bg-light text-right form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" placeholder="{{  __('app.Coin') }}" required autofocus>
     </div>
 
     <div class="form-group{{ $errors->has('init_at') ? ' has-error' : '' }}">
         <label for="init_at" class="control-label spice">{{ __('general.Date_ini')}}</label>
-        <input id="init_at" required type="text" class="date-only form-control" name="init_at" value="{{ $member->init_at }}">
+        <input id="init_at" required type="text" class="border-0 bg-light date-only form-control" name="init_at" value="{{ $member->init_at }}">
         @error('init_at')
             <div class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -21,7 +21,7 @@
 
     <div class="form-group{{ $errors->has('end_at') ? ' has-error' : '' }}">
         <label for="end_at" class="control-label spice">{{ __('general.Date_end')}}</label>
-        <input id="end_at" required type="text" class="date-only form-control" name="end_at" value="{{ $member->end_at }}">
+        <input id="end_at" required type="text" class="border-0 bg-light date-only form-control" name="end_at" value="{{ $member->end_at }}">
         @error('end_at')
             <div class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -30,8 +30,10 @@
     </div>    
 
     <div class="form-group{{ $errors->has('notes') ? ' has-error' : '' }}">
-        <label for="notes" class="control-label">{{ __('general.Notes') }}:</label>
-        <textarea id="notes" class="text-right form-control @error('notes') is-invalid @enderror" name="notes">{{ old('notes') }}</textarea>
+        <a href="#" class="text-info notes-up"><i class="fa fa-plus-circle"></i></a> <label for="notes" class="control-label">{{ __('general.Notes') }}:</label>
+        <div style="display:none" class="notes-down">
+            <textarea id="notes" class="border-0 bg-light text-right form-control @error('notes') is-invalid @enderror" name="notes">{{ old('notes') }}</textarea>
+        </div>
     </div>    
 
 
