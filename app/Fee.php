@@ -30,7 +30,7 @@ class Fee extends Model
 
     protected $hidden = [
         'deleted_at',
-    ]; 
+    ];
     /**
      * The attributes that should be mutated to dates.
      *
@@ -49,7 +49,7 @@ class Fee extends Model
     {
         return $this->belongsTo('App\User')->withDefault([
             'name' => '[Deleted]'
-        ]); 
+        ]);
     }
 
     /**
@@ -59,6 +59,6 @@ class Fee extends Model
     {
         return $this->belongsTo('App\Member')->withDefault([
             'name' => '[None]'
-        ]); 
-    }  
+        ]);
+    }
 }

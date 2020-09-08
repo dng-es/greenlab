@@ -29,6 +29,8 @@
     "dependencies": {
         "bootstrap-colorpicker": "^3.2.0",
         "bootstrap-select": "^1.13.17",
-        "sweetalert2": "^9.7.1"
+        "sweetalert2": "^9.7.1",
+        "@fullcalendar/core": "4.3.0",
+        "@fullcalendar/resource-timeline": "4.3.0"
     }
 }

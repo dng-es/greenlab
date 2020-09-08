@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
-{  
+{
 
     /**
      * Show the application dashboard.
@@ -32,20 +32,19 @@ class ProfileController extends Controller
         $user->name = $request->input('name');
         $user->save();
         return redirect()->back()->with('status', 'Perfil actualizado correctamente');
-    } 
+    }
 
 
-    public function changePassword(UpdatePasswordRequest $request){
+    public function changePassword(UpdatePasswordRequest $request)
+    {
         dd("Hola");
         if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
             // The passwords matches
             $status = "Tu contraseña actual no coincide con la facilitada. Por favor inténtalo de nuevo.";
-        }
-        elseif(strcmp($request->get('current-password'), $request->get('new-password')) == 0){
+        } elseif (strcmp($request->get('current-password'), $request->get('new-password')) == 0) {
             //Current password and new password are same
             $status = "La nueva contraseña no puede ser igual a la actual. Por favor elige una contraseña distinta.";
-        }
-        else{     
+        } else {
             //Change Password
             $user = Auth::user();
             $user->password = bcrypt($request->get('new-password'));
@@ -54,5 +53,5 @@ class ProfileController extends Controller
         }
  
         return redirect('profile')->with('status', $status);
-    }    
+    }
 }

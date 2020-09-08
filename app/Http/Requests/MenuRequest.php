@@ -26,7 +26,7 @@ class MenuRequest extends FormRequest
     {
         return [
             
-            'fontsize' => 'required|string|max:255|min:3',
+            'fontsize' => 'required|string|max:255|min:1',
             'fontcolor' => 'required|string|max:255|min:3',
             'background' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];

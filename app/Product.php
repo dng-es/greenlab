@@ -21,7 +21,7 @@ class Product extends Model
 
     protected $hidden = [
         'deleted_at',
-    ];    
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -41,7 +41,7 @@ class Product extends Model
         return $this->belongsTo('App\Category')->withDefault([
             'name' => '[Deleted]'
         ]);
-    }  
+    }
 
     /**
      * Get the warehouses

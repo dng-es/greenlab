@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -16,7 +15,7 @@ class DashboardController extends Controller
      */
     public function show(Request $request, \Codedge\Updater\UpdaterManager $updater)
     {
-    	$stock = Product::where('amount', '>', 0)
+        $stock = Product::where('amount', '>', 0)
             ->with('category')
             ->orderBy('name')
             ->get();
@@ -41,9 +40,8 @@ class DashboardController extends Controller
         // }
 
         return view('dashboard', [
-            'stock' => $stock, 
+            'stock' => $stock,
             'update_app' => $update_app
         ]);
-
     }
 }

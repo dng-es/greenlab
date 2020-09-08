@@ -17,8 +17,11 @@ class Menu extends Model
 
     public function imageBackground()
     {
-        if ( \Storage::disk('menu')->exists($this->background) ) $filename = $this->background;
-        else $filename = 'default.jpg';
+        if (\Storage::disk('menu')->exists($this->background)) {
+            $filename = $this->background;
+        } else {
+            $filename = 'default.jpg';
+        }
         return \Storage::disk('menu')->url($filename);
-    }    
+    }
 }

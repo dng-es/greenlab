@@ -32,7 +32,7 @@
                             <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
                                 <label for="category_id" class="control-label">{{ __('app.Category')}}</label>
                                 <div class="input-group mb-3 my-group">
-                                    <select id="category_id" class="form-control" name="category_id">
+                                    <select id="category_id" class="form-control selectpicker show-tick" name="category_id">
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}" @php echo (old('category_id') == $category->id ? ' selected="selected" ' : '');@endphp>{{ $category->name }}</option>
                                     @endforeach
@@ -48,7 +48,17 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="price" class="control-label">{{ __('app.Price')}}</label>
+                                <label for="price" class="control-label">
+                                    {{ __('app.Price')}}
+                                    <small>
+                                        {{  __('app.Coin') }}/
+                                        @if($bar == 0)
+                                            {{ strtolower(__('app.Gram')) }}
+                                        @else
+                                            {{ strtolower(__('app.Unit')) }}
+                                        @endif
+                                    </small>
+                                </label>
                                 <input id="price" type="number" step="any"  class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" required>
                                 @error('price')
                                     <div class="invalid-feedback" role="alert">

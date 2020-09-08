@@ -23,8 +23,10 @@ class ExpenseController extends Controller
 
         //busquedas
         $search =  $request->input("search", '');
-        if ($search != "") $expenses = $expenses->where('expenses.notes', 'like', '%'.$search.'%')
+        if ($search != "") {
+            $expenses = $expenses->where('expenses.notes', 'like', '%'.$search.'%')
             ->orWhere('suppliers.name', 'like', '%'.$search.'%');
+        }
 
         //ordernacion del listado
         $order =  $request->input("order", 'DESC');
@@ -57,15 +59,16 @@ class ExpenseController extends Controller
         if ($expense = Expense::create([
                 'user_id'     => Auth::user()->id,
                 'supplier_id'    => $request->input('supplier_id'),
-                'price'    => $request->input('price'),
+                'price'    => $request->input('total'),
                 'amount'    => $request->input('amount'),
                 'total'    => $request->input('total'),
                 'notes'    => $request->input('notes'),
                 'date_at'    => $request->input('date_at'),
-            ])){    
+            ])) {
             $message = __('general.InsertOkMessage');
+        } else {
+            $message =  __('general.ErrorMessage');
         }
-        else $message =  __('general.ErrorMessage');
 
         return redirect()->back()->with('status', $message);
     }
@@ -126,5 +129,5 @@ class ExpenseController extends Controller
     public function export($type, $exportOption = "xlsx", Request $request)
     {
         return Excel::download(new ExpensesExport($type, $request), __('app.Expenses'). '.'.$exportOption);
-    }    
+    }
 }

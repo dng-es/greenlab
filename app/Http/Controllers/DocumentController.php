@@ -44,15 +44,16 @@ class DocumentController extends Controller
         $extension = \File::extension($original_name);
         $file_name = time().".".$extension;
         
-        if (\Storage::disk('user_images')->put($file_name,  \File::get($file))){
+        if (\Storage::disk('user_images')->put($file_name, \File::get($file))) {
             $document = Document::create([
                 'member_id' =>$member->id,
                 'name' =>$request->input('name'),
                 'file' =>$file_name,
             ]);
             return redirect()->back()->with('status', __('general.InsertOkMessage'))->with('status_mode', 'success');
+        } else {
+            return redirect()->back()->with('status', __('general.ErrorMessage'))->with('status_mode', 'error');
         }
-        else return redirect()->back()->with('status', __('general.ErrorMessage'))->with('status_mode', 'error');
     }
 
     /**

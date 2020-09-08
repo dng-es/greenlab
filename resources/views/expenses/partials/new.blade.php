@@ -19,7 +19,7 @@
                     <div class="form-group{{ $errors->has('supplier_id') ? ' has-error' : '' }}">
                         <label for="supplier_id" class="control-label">{{ __('app.Supplier')}}</label>
                         <div class="input-group mb-3 my-group">
-                            <select id="supplier_id" class="form-control selectpicker" name="supplier_id">
+                            <select id="supplier_id" class="form-control selectpicker show-tick" name="supplier_id">
                             @foreach($suppliers as $supplier)
                                 <option value="{{ $supplier->id }}" @php echo (old('supplier_id') == $supplier->id ? ' selected="selected" ' : '');@endphp>{{ $supplier->name }}</option>
                             @endforeach
@@ -33,12 +33,12 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 d-none">
                     <div class="form-group">
                         <label for="amount" class="control-label">
                             {{ __('app.Amount')}}
                         </label>
-                        <input id="amount" type="number" step="any" class="text-right form-control @error('amount') is-invalid @enderror" name="amount" value="{{ old('amount') }}" required>
+                        <input id="amount" type="number" step="any" class="text-right form-control @error('amount') is-invalid @enderror" name="amount" value="1" required>
                         @error('amount')
                             <div class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -47,12 +47,12 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-4 d-none">
                     <div class="form-group">
                         <label for="price" class="control-label">
                             {{ __('app.Price')}} <small>{{  __('app.Coin') }}</small>
                         </label>
-                        <input id="price" type="number" step="any"  class="text-right form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" required>
+                        <input id="price" type="number" step="any"  class="text-right form-control @error('price') is-invalid @enderror" name="price" value="0" required>
                         @error('price')
                             <div class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

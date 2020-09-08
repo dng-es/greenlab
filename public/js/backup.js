@@ -5,14 +5,14 @@ jQuery(document).ready(function(){
             url = elem.data('url');
 
         Swal.fire({
-            title: "¿Estas seguro?",
-            text: "Seguro que deseas realizar la copia de seguridad. Este proceso puede durar unos minutos",
+            title: i18n.general.AreYouSure,
+            text: i18n.general.Backup_alert,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            cancelButtonText: "Cancelar",
-            confirmButtonText: "Confirmar"
+            cancelButtonText: i18n.general.CancelMsg,
+            confirmButtonText: i18n.general.ConfirmMsg
         }).then((result) => {
             if (result.value) {
                 location.href = url;      

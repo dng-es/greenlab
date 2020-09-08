@@ -6,7 +6,11 @@
 @endsection
 
 @section('content_admin')
+@if (Auth::user()->hasRole('admin'))
 {{ Breadcrumbs::render('members') }}
+@else
+{{ Breadcrumbs::render('members_seller') }}
+@endif
 
 @include('layouts.messages')
 
@@ -14,9 +18,11 @@
     <div class="col-md-1">
         <button class="btn btn-primary float-right" title="{{ __('general.New') }}" data-toggle="modal" data-target="#memberModal"><i class="fa fa-plus"></i></button>
     </div>
+    @if (Auth::user()->hasRole('admin'))
     <div class="col-md-4">
         <export btnstyle="btn-primary" url="{{ route('members.export') }}" label="{{ __('general.Export') }}" btnstyle="btn-success" dates="false"></export>
     </div>
+    @endif
     <div class="col-md-5">
         <search btnstyle="btn-primary" label="{{ __('general.Search') }}" btnstyle="btn-primary" inputvalue="{{ $search }}"></search>
     </div>
@@ -31,6 +37,7 @@
             <tr>
                 <th><orderby field="vat" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Vat') }}</th>
                 <th><orderby field="last_name" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Member') }}</th>
+                <th class="text-right"><orderby field="credit" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Credit') }}</th>
                 <th class="text-right"><orderby field="telephone" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('general.Telephone') }}</th>
                 <th><orderby field="email" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('general.Email') }}</th>
                 <th class="text-right"><orderby field="active" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('general.Active') }}</th>
@@ -40,12 +47,15 @@
         <tbody>
             @foreach ($members as $element)
             <tr>
-                <td>{{ $element->vat }}</td>
+                <td><a title="{{ __('general.Edit') }}" href="{{ route('member.edit', ['member' => $element->id]) }}">{{ $element->vat }}</a></td>
                 <td>
                     {{ $element->last_name }}, {{ $element->name }}</em></small>
                     @if ($element->notes != '')
-                        <br><small><em class="text-muted">{{ $element->notes }}</em></small>
+                        <br><small><em class="text-danger">{{ $element->notes }}</em></small>
                     @endif
+                </td>
+                <td class="text-right">
+                    {{ $element->credit }} <span class="text-muted">{{  __('app.Coin') }}</span>
                 </td>
                 <td class="text-right">{{ $element->telephone }}</td>
                 <td>

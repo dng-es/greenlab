@@ -45,6 +45,7 @@ class MembersExport implements FromCollection, WithHeadings, WithEvents, WithStr
             'Email',
             __('general.Image'),
             __('general.Born_at'),
+            __('general.Address'),
             __('general.Notes'),
             __('app.Credit'),
             __('general.Active'),

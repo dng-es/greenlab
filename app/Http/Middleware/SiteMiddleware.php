@@ -15,8 +15,8 @@ class SiteMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next){
-        
+    public function handle($request, Closure $next)
+    {
         $site = Site::findOrfail(1);
         session()->put('site', $site);
 

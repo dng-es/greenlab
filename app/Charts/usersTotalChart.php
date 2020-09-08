@@ -18,7 +18,7 @@ class usersTotalChart extends Chart
 
         $total_data = [];
         $labels = [];
-        for ($i = 0; $i < date('m'); $i++){     
+        for ($i = 0; $i < date('m'); $i++) {
             $users = DB::table("users")->select(DB::raw("(COUNT(*)) as total_users"))
             ->wheremonth('created_at', '<=', ($i + 1))
             ->whereyear('created_at', '<=', date('Y'))

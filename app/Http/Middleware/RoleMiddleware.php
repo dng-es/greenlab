@@ -11,12 +11,13 @@ class RoleMiddleware
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  \Role  $role
+     * @param  \Role  $roles
      * @return mixed
      */
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, $roles)
     {
-        if (! $request->user()->hasRole($role)) {
+        $roles = explode(" ", $roles);
+        if (! $request->user()->hasAnyRole($roles)) {
             return abort(403, "Unauthorized");
         }
 

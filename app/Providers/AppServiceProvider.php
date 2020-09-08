@@ -27,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app['view']->composer('warehouses.partials.new', 'App\Http\ViewComposers\WarehouseComposer@show');
 
         //expense new
-        $this->app['view']->composer('expenses.partials.new', 'App\Http\ViewComposers\ExpenseComposer@show');        
+        $this->app['view']->composer('expenses.partials.new', 'App\Http\ViewComposers\ExpenseComposer@show');
     }
 }

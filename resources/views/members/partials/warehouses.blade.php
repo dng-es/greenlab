@@ -18,7 +18,7 @@
                 <td class="text-right">{{ ($element->total) }} {{  __('app.Coin') }}</td>
                 <td>
                     <p class="mb-0 mt-0"><small>{{ $element->created_at->format('Y-m-d H:i') }}</small></p>
-                    <p class="mb-0 mt-0"><small>{{ $element->user->first()->name }}</small></p>
+                    <p class="mb-0 mt-0"><small>{{ $element->user()->first()->name }}</small></p>
                 </td>
             </tr>
             @endforeach

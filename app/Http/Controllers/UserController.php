@@ -13,15 +13,16 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
-{  
-
+{
     public function index(Request $request)
     {
         $users = User::select('*')->with('roles');
 
         //busquedas
         $search =  $request->input("search", '');
-        if ($search != "") $users = $users->where('users.name', 'like', '%'.$search.'%');
+        if ($search != "") {
+            $users = $users->where('users.name', 'like', '%'.$search.'%');
+        }
 
         //ordernacion del listado
         $order =  $request->input("order", 'DESC');
@@ -56,12 +57,13 @@ class UserController extends Controller
                 'name'     => $request->input('name'),
                 'email'    => $request->input('email'),
                 'password' => bcrypt($request->input('password')),
-            ])){        
+            ])) {
             //agregar role
             $user->roles()->attach($request->input('role_id'));
             $status = __('general.InsertOkMessage');
+        } else {
+            $status = __('general.ErrorMessage');
         }
-        else $status = __('general.ErrorMessage');
 
         return redirect()->route('users.edit', ['user' => $user->id])->with('status', $status);
     }
@@ -91,7 +93,7 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->save();
         $user->roles()->sync([$request->input('role_id')]);
-        return redirect()->back()->with('status',__('general.UpdateOkMessage'));
+        return redirect()->back()->with('status', __('general.UpdateOkMessage'));
     }
 
     /**
@@ -105,7 +107,7 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect()->back()->with('status', __('general.DeleteOkMessage'));
-    }    
+    }
 
     /**
      * Export data to the specified format.
@@ -118,5 +120,4 @@ class UserController extends Controller
     {
         return Excel::download(new UsersExport($request), 'users.'.$exportOption);
     }
-
 }

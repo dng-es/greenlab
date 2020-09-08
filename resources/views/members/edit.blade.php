@@ -6,9 +6,16 @@
 @endsection
 
 @section('content_admin')
+@if (Auth::user()->hasRole('admin'))
 {{ Breadcrumbs::render('member_edit', $member) }}
+@else
+{{ Breadcrumbs::render('member_edit_seller', $member) }}
+@endif
 
-@include('layouts.messages')
+<div id="alert-member" class="text-right alert-app alert-dismissible alert alert-success fade show" role="alert" style="display:none">
+    <i class="fas fa-check"></i> <span id="alert-msg"></span>
+</div>
+
 
 <div class="row">
     <div class="col-md-12">
@@ -29,7 +36,6 @@
                     <div class="col-md-8">
                         <div class="card border-0 mb-3">
                             <div class="card-body pb-0">
-                                <div id="member-message" class="alert" role="alert" style="display:none"></div>
                                 <form class="form-horizontal" id="new_member" method="POST" action="{{ route('members.update', ['member' => $member->id]) }}">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="member_id" id="member_id" value="{{ $member->id }}" />
@@ -84,8 +90,8 @@
 
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="created_at" class="control-label">{{ __('general.Created_at')}}</label>
-                                                    <input id="created_at" type="text" class="form-control" name="created_at" value="{{ $member->created_at }}" disabled>
+                                                    <label for="created_at" class="control-label text-muted">{{ __('general.Created_at')}}</label>
+                                                    <input id="created_at" type="text" class="form-control text-muted" name="created_at" value="{{ $member->created_at->format('Y-m-d H:i') }}" disabled>
                                                 </div>  
                                             </div>  
                                         </div>
@@ -127,17 +133,39 @@
 
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="user_id_member" class="control-label">{{ __('general.Created_by')}}</label>
-                                                    <input id="user_id_member" type="text" class="form-control " name="user_id_member" value="{{ $member->user()->first()->name }}" disabled>
+                                                    <label for="user_id_member" class="control-label text-muted">{{ __('general.Created_by')}}</label>
+                                                    <input id="user_id_member" type="text" class="form-control text-muted" name="user_id_member" value="{{ $member->user()->first()->name }}" disabled>
                                                 </div>  
                                             </div> 
                                         </div>
 
                                         <div class="row">
                                             <div class="col-md-9">
+                                                <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
+                                                    <label for="address" class="control-label">{{ __('general.Address')}}</label>
+                                                    <input id="address" type="text" class="form-control" data-alert="Campo requerido" name="address" value="{{ $member->address }}" />
+                                                    @error('address')
+                                                        <div class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </div>
+                                                    @enderror
+                                                </div>         
+                                            </div> 
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-lg btn-warning btn-block mt-2">
+                                                        <i class="fa fa-save text-white"></i> {{ __('general.SaveData')}}
+                                                    </button> 
+                                                </div>
+                                            </div>                                       
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-9">
                                                 <div class="form-group{{ $errors->has('notes') ? ' has-error' : '' }}">
                                                     <label for="notes" class="control-label">{{ __('general.Notes')}}</label>
-                                                    <textarea id="notes" rows="5" type="text" class="form-control" data-alert="Campo requerido" name="notes">{{ $member->notes }}</textarea>
+                                                    <textarea id="notes" rows="5" class="form-control" data-alert="Campo requerido" name="notes">{{ $member->notes }}</textarea>
                                                     @error('notes')
                                                         <div class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>
@@ -153,17 +181,6 @@
                                                     <input type="checkbox" value="1" name="active" {{ $member->active == 1 ? 'checked' : '' }} id="active">
                                                     <label for="active">{{ __('general.Active')}}</label>
                                                     <span></span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <button type="submit" class="btn btn-lg btn-warning">
-                                                        <i class="fa fa-save text-white"></i> {{ __('general.SaveData')}}
-                                                    </button> 
                                                 </div>
                                             </div>
                                         </div>
@@ -199,39 +216,52 @@
             </div>
 
             <div class="tab-pane fade" id="nav-warehouses" role="tabpanel" aria-labelledby="nav-warehouses-tab">
-                <a href="{{ route('sell', ['member' => $member]) }}" class="btn btn-info mb-2 mt-1"><i class="fa fa-cart-plus text-white"></i> {{ __('app.Sell_new') }}</a>
+                <div class="row">
+                    <div class="col-md-8">
+         
+                        <div class="fa-3x loading_warehouses mt-5 text-center text-muted">
+                            <i class="fas fa-spinner fa-pulse"></i>
+                        </div>
+                        <div id="warehouses" data-pourl="{{ route('members.warehouses', ['member' => $member]) }}"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ route('sell', ['member' => $member]) }}" class="btn btn-info mb-2 mt-1"><i class="fa fa-cart-plus text-white"></i> {{ __('app.Sell_new') }}</a>
 
-                <span class="resumeFont">{{ __('app.This_month') }}: <b>{{ $total_month }} {{ strtolower( __('app.Grams')) }}</b></span>
- 
-                <div class="fa-3x loading_warehouses mt-5 text-center text-muted">
-                    <i class="fas fa-spinner fa-pulse"></i>
+                        <p class="resumeFont">{{ __('app.This_month') }}: <b>{{ $total_month }} {{ strtolower( __('app.Grams')) }}</b></p>
+                    </div>
                 </div>
-                <div id="warehouses" data-pourl="{{ route('members.warehouses', ['member' => $member]) }}"></div>
             </div>
 
            <div class="tab-pane fade" id="nav-credits" role="tabpanel" aria-labelledby="nav-credits-tab">
-                                      
-                @include('credits.partials.btn', ['member' => $member])
+                <div class="row">
+                    <div class="col-md-8">                
 
-                <div class="fa-3x loading_credits mt-5 text-center text-muted">
-                    <i class="fas fa-spinner fa-pulse"></i>
+                        <div class="fa-3x loading_credits mt-5 text-center text-muted">
+                            <i class="fas fa-spinner fa-pulse"></i>
+                        </div>
+                        <div id="credits" data-pourl="{{ route('members.credits', ['member' => $member]) }}"></div>
+                    </div>
+                    <div class="col-md-4">
+                        @include('credits.partials.btn', ['member' => $member])
+                    </div>
                 </div>
-                <div id="credits" data-pourl="{{ route('members.credits', ['member' => $member]) }}"></div>
             </div>
 
            <div class="tab-pane fade" id="nav-cuotes" role="tabpanel" aria-labelledby="nav-cuotes-tab">
-
-                @include('fees.partials.btn', ['member' => $member])
-
-                <div class="fa-3x loading_fees mt-5 text-center text-muted">
-                    <i class="fas fa-spinner fa-pulse"></i>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="fa-3x loading_fees mt-5 text-center text-muted">
+                            <i class="fas fa-spinner fa-pulse"></i>
+                        </div>
+                        <div id="fees" data-pourl="{{ route('members.fees', ['member' => $member]) }}"></div>
+                    </div>
+                    <div class="col-md-4">
+                        @include('fees.partials.btn', ['member' => $member])
+                    </div>
                 </div>
-                <div id="fees" data-pourl="{{ route('members.fees', ['member' => $member]) }}"></div>
             </div>
 
             <div class="tab-pane fade" id="nav-documents" role="tabpanel" aria-labelledby="nav-documents-tab">
-
-
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-4">

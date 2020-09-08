@@ -12,7 +12,8 @@ jQuery(document).ready(function(){
 		$('#code').val(code);
 	})
 
- 	var ini_born_at = $('#born_at').val();
+ 	var ini_born_at = $('#born_at').val(),
+ 		elemAlert = $("#alert-member");
 
     $('#memberModal').on('hidden.bs.modal', function (e) {
     	resetMessages();
@@ -104,6 +105,13 @@ jQuery(document).ready(function(){
 	                }else{
 	                    printErrorMsg(data.error);
 	                }
+
+	                $("#alert-msg").html(data.success);
+	                elemAlert.show(function(){
+					    setTimeout(function() {
+					         elemAlert.fadeOut();
+					    }, 2000);
+                    });
 	            },
 	            error: function(data){
 	            	 printErrorMsg(data.responseJSON.errors);

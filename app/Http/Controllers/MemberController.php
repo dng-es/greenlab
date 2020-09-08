@@ -15,18 +15,19 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class MemberController extends Controller
-{  
-
+{
     public function index(Request $request)
     {
         $members = Member::select('*');
 
         //busquedas
         $search =  $request->input("search", '');
-        if ($search != "") $members = $members->where('last_name', 'like', '%'.$search.'%')
+        if ($search != "") {
+            $members = $members->where('last_name', 'like', '%'.$search.'%')
             ->orWhere('name', 'like', '%'.$search.'%')
             ->orWhere('vat', 'like', '%'.$search.'%')
             ->orWhere('code', 'like', '%'.$search.'%');
+        }
 
 
         //ordernacion del listado
@@ -60,7 +61,7 @@ class MemberController extends Controller
     protected function store(MemberRequest $request)
     {
         $imageName = $request->input('imgBase64', '');
-        if ($imageName != ''){
+        if ($imageName != '') {
             $image = str_replace('data:image/png;base64,', '', $request->input('imgBase64'));
             $image = str_replace(' ', '+', $image);
             $imageName = "user-".time().".png";
@@ -76,13 +77,15 @@ class MemberController extends Controller
                 'telephone'    => $request->input('telephone'),
                 'email'    => $request->input('email'),
                 'born_at'    => $request->input('born_at'),
+                'address'    => $request->input('address'),
                 'notes'    => $request->input('notes'),
                 'picture'    => $imageName,
                 'active'    => ($request->has('active') ? $request->input('active') : 0),
-            ])){    
+            ])) {
             return response()->json(['success'=> __('general.InsertOkMessage'), 'data' => $member]);
+        } else {
+            return response()->json(['error'=> __('general.ErrorMessage')]);
         }
-        else return response()->json(['error'=> __('general.ErrorMessage')]);        
     }
 
     /**
@@ -91,7 +94,7 @@ class MemberController extends Controller
      * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,Member $member)
+    public function edit(Request $request, Member $member)
     {
         $total_month = $member->warehouses()
             ->leftJoin('products', 'products.id', 'warehouses.product_id')
@@ -103,7 +106,7 @@ class MemberController extends Controller
             ->sum('amount_real');
 
         return view('members.edit', [
-            'member' => $member, 
+            'member' => $member,
             'total_month' => $total_month,
         ]);
     }
@@ -122,12 +125,13 @@ class MemberController extends Controller
         $member->last_name = $request->input('last_name');
         $member->telephone = $request->input('telephone');
         $member->email = $request->input('email');
+        $member->address = $request->input('address');
         $member->notes = $request->input('notes');
         $member->born_at = $request->input('born_at');
         $member->active = ($request->has('active') ? $request->input('active') : 0);
         
         $imageName = $request->input('imgBase64', '');
-        if ($imageName != ''){
+        if ($imageName != '') {
             $image = str_replace('data:image/png;base64,', '', $request->input('imgBase64'));
             $image = str_replace(' ', '+', $image);
             $imageName = "user-".time().".png";
@@ -136,7 +140,7 @@ class MemberController extends Controller
             $member->picture = $imageName;
         }
 
-        if ($request->has('code')){
+        if ($request->has('code')) {
             $member->code = $request->code;
         }
 
@@ -153,9 +157,10 @@ class MemberController extends Controller
      */
     public function update(Member $member, MemberUpdateRequest $request)
     {
-        if ($this->updateProcess($member, $request))
-        return response()->json(['success'=> __('general.UpdateOkMessage'), 'data' => $member]);
-    }  
+        if ($this->updateProcess($member, $request)) {
+            return response()->json(['success'=> __('general.UpdateOkMessage'), 'data' => $member]);
+        }
+    }
 
 
     /**
@@ -178,7 +183,7 @@ class MemberController extends Controller
     public function search($search = '')
     {
         return Member::orderBy('name')
-            ->when($search != '', function($query) use ($search){
+            ->when($search != '', function ($query) use ($search) {
                 return $query->where('code', $search)
                             ->orWhere('name', 'LIKE', '%'.$search.'%')
                             ->orWhere('last_name', 'LIKE', '%'.$search.'%')
@@ -197,14 +202,14 @@ class MemberController extends Controller
     public function warehouses(Member $member)
     {
         $warehouses = $member->warehouses()
-            ->select('warehouses.amount_real', 'warehouses.price', 'warehouses.total', 'products.name AS product', 'categories.name AS category', 'warehouses.created_at')
+            ->select('warehouses.user_id', 'warehouses.amount_real', 'warehouses.price', 'warehouses.total', 'products.name AS product', 'categories.name AS category', 'warehouses.created_at')
             ->leftJoin('products', 'products.id', 'warehouses.product_id')
             ->leftJoin('categories', 'categories.id', 'products.category_id')
             ->orderBy('warehouses.created_at', 'DESC')
             ->paginate(10);
 
         return view('members.partials.warehouses', ['warehouses' => $warehouses]);
-    }  
+    }
 
     /**
      * Display the specified resource.
@@ -219,15 +224,16 @@ class MemberController extends Controller
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
-        if ($credits->total() > 0){
+        if ($credits->total() > 0) {
             $date_credits = $credits->first()->created_at;
             $history_credit = $member->credits()->where('created_at', '>', $date_credits)->sum('credit');
             $balance = ($member->credit - $history_credit);
+        } else {
+            $balance = 0;
         }
-        else $balance = 0;
 
         return view('members.partials.credits', ['credits' => $credits, 'balance' => $balance]);
-    } 
+    }
 
     /**
      * Display the specified resource.
@@ -235,7 +241,8 @@ class MemberController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function fees(Member $member){
+    public function fees(Member $member)
+    {
         $fees = $member->fees()
             ->with('user')
             ->orderBy('created_at', 'DESC')
@@ -252,16 +259,18 @@ class MemberController extends Controller
      */
     public function import(Request $request)
     {
-        if($request->hasFile('filename')){
+        if ($request->hasFile('filename')) {
             $file = $request->file('filename');
             //saneamos el nombre del archivo
             $original_name = $file->getClientOriginalName();
             $extension = \File::extension($original_name);
             $file_name = time().".".$extension;
-            if (\Storage::disk('backup')->put($file_name,  \File::get($file))){
-                if (Excel::import(new MembersImport, storage_path('app/backup/').$file_name))
-                    return redirect()->back()->with('status',__('general.UploadOk'))->with('status_mode', 'success');
-                else return redirect()->back()->with('status',__('general.UploadKo'))->with('status_mode', 'error');
+            if (\Storage::disk('backup')->put($file_name, \File::get($file))) {
+                if (Excel::import(new MembersImport, storage_path('app/backup/').$file_name)) {
+                    return redirect()->back()->with('status', __('general.UploadOk'))->with('status_mode', 'success');
+                } else {
+                    return redirect()->back()->with('status', __('general.UploadKo'))->with('status_mode', 'error');
+                }
             }
         }
     }

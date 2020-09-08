@@ -45,10 +45,11 @@ class FeeController extends Controller
                 'init_at'    => $request->input('init_at'),
                 'end_at'    => $request->input('end_at'),
                 'notes'    => $request->input('notes'),
-            ])){    
+            ])) {
             return response()->json(['success'=> __('general.InsertOkMessage'), 'data' => $fee]);
+        } else {
+            return response()->json(['error'=> __('general.ErrorMessage')]);
         }
-        else return response()->json(['error'=> __('general.ErrorMessage')]);        
     }
 
     /**

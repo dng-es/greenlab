@@ -17,8 +17,11 @@ class Site extends Model
 
     public function logoSite()
     {
-        if ( \Storage::disk('sites')->exists($this->logo) ) $filename = $this->logo;
-        else $filename = 'default.png';
+        if (\Storage::disk('sites')->exists($this->logo)) {
+            $filename = $this->logo;
+        } else {
+            $filename = 'default.png';
+        }
         return \Storage::disk('sites')->url($filename);
-    } 
+    }
 }

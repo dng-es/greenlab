@@ -162,6 +162,24 @@ Breadcrumbs::register('product_edit', function ($breadcrumbs, $product) {
     $breadcrumbs->push($product->name, route('product.edit', $product->id));
 });
 
+// Home > Members
+Breadcrumbs::for('members_seller', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('app.Members'), route('members'));
+});
+
+// Home > Members > New
+Breadcrumbs::register('member_new_seller', function ($breadcrumbs) {
+    $breadcrumbs->parent('members_seller');
+    $breadcrumbs->push(__('general.New'), route('member.new'));
+});
+
+// Home > Members > Edit
+Breadcrumbs::register('member_edit_seller', function ($breadcrumbs, $member) {
+    $breadcrumbs->parent('members_seller');
+    $breadcrumbs->push($member->name . ' ' . $member->last_name, route('member.edit', $member->id));
+});
+
 // Dashboard > Members
 Breadcrumbs::for('members', function ($trail) {
     $trail->parent('dashboard');

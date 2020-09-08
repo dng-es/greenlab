@@ -19,7 +19,7 @@ $type = (isset($type) ? $type : 'E');
             <div class="form-group{{ $errors->has('product_id') ? ' has-error' : '' }}">
                 <label for="product_id" class="control-label">{{ __('app.Product')}}</label>
                 <div class="input-group mb-3 my-group">
-                    <select id="product_id" class="form-control selectpicker" name="product_id">
+                    <select id="product_id" class="form-control selectpicker show-tick" name="product_id">
                     @foreach($products as $element)
                         @if($bar == $element->bar || $bar == -1)
                         <option data-subtext="{{ $element->category()->first()->name }}" value="{{ $element->id }}" @php echo (old('product_id') == $element->id ? ' selected="selected" ' : '');@endphp>{{ $element->name }}</option>
@@ -40,7 +40,7 @@ $type = (isset($type) ? $type : 'E');
             <div class="form-group{{ $errors->has('supplier_id') ? ' has-error' : '' }}">
                 <label for="supplier_id" class="control-label">{{ __('app.Supplier')}}</label>
                 <div class="input-group mb-3 my-group">
-                    <select id="supplier_id" class="form-control selectpicker" name="supplier_id">
+                    <select id="supplier_id" class="form-control selectpicker show-tick" name="supplier_id">
                     @foreach($suppliers as $supplier)
                         <option value="{{ $supplier->id }}" @php echo (old('supplier_id') == $supplier->id ? ' selected="selected" ' : '');@endphp>{{ $supplier->name }}</option>
                     @endforeach

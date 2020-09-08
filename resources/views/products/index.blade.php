@@ -46,7 +46,7 @@
                     @foreach ($products as $element)
                     <tr>
                         <td>
-                            {{ $element->name }} <small><em class="text-muted">{{ $element->category->name }}</em></small>
+                            <a title="{{ __('general.Edit') }}" href="{{ route('product.edit', ['product' => $element->id, 'bar' => $bar]) }}">{{ $element->name }}</a> <small><em class="text-muted">{{ $element->category->name }}</em></small>
                         </td>
                         <td class="text-right">{{ number_format($element->price, 2, '.', ',') }} {{  __('app.Coin') }}</td>
                         <td class="text-right">
@@ -66,7 +66,7 @@
                         </td>
                         <td class="text-right">
                             <a class="btn btn-sm btn-outline-secondary" title="{{ __('general.Edit') }}" href="{{ route('product.edit', ['product' => $element->id, 'bar' => $bar]) }}"><i class="fa fa-edit"></i></a> 
-                            <button class="btn btn-sm btn-outline-danger btn-confirm" data-confirmbtn="{{ __('general.Delete') }}" data-msg="{{ __('general.SureToDelete') }}?" data-url="{{ route('product.destroy', ['product' => $element->id]) }}" title="{{ __('general.Delete') }}"><i class="fa fa-trash"></i></button>
+                            <button class="btn btn-sm btn-outline-danger btn-confirm" data-confirmbtn="{{ __('general.Delete') }}" data-msg="{{ __('general.SureToDelete') }}" data-url="{{ route('product.destroy', ['product' => $element->id]) }}" title="{{ __('general.Delete') }}"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
                     @endforeach

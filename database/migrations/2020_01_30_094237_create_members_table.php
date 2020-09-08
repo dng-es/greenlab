@@ -23,6 +23,7 @@ class CreateMembersTable extends Migration
             $table->string('email');
             $table->string('picture');
             $table->string('born_at');
+            $table->text('address');
             $table->text('notes');
             $table->float('credit', 8, 2)->default(0);
             $table->smallInteger('active')->default(1);

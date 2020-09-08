@@ -27,7 +27,7 @@ class UpdatePasswordRequest extends FormRequest
             'new-password.min' => 'La nueva contraseña de tener al menos 3 caracteres',
             'new-password.confirmed'  => 'Las contraseñas no coinciden',
         ];
-    }     
+    }
 
     /**
      * Get the validation rules that apply to the request.

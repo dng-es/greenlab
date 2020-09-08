@@ -7,7 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ session()->get('site')->name }} - {{ __('app.Menu') }}</title>
+    <link rel="shortcut icon" href="{{ session()->get('site')->logoSite() }}">
 
 
     <!-- Fonts -->

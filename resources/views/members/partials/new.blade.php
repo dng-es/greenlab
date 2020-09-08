@@ -117,6 +117,20 @@
 
             <div class="row">
                 <div class="col-md-12">
+                    <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
+                        <label for="address" class="control-label">{{ __('general.Address')}}</label>
+                        <input id="address" type="text" class="border-0 bg-light form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}">
+                        @error('address')
+                            <div class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                    </div>  
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
                     <div class="chiller_cb mt-3 mb-2">
                         <input type="checkbox" value="1" name="active" checked id="active">
                         <label for="active">{{ __('general.Active')}}</label>

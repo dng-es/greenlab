@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Category;
 use App\Expense;
+use App\Fee;
 use App\Member;
 use App\Product;
 use App\Supplier;
@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
-{  
-
+{
     public function show(Request $request, $type)
     {
         $limit = $request->input('limit', 10);
@@ -86,7 +85,7 @@ class ReportController extends Controller
                         ->whereMonth('warehouses.created_at', $month)
                         ->whereYear('warehouses.created_at', $year)
                         ->groupBy('warehouses.member_id');
-                break;    
+                break;
 
             case 'top_member_year':
                 $title = __('app.Top_member_year');
@@ -111,7 +110,7 @@ class ReportController extends Controller
                         ->whereMonth('warehouses.created_at', $month)
                         ->whereYear('warehouses.created_at', $year)
                         ->groupBy('warehouses.supplier_id');
-                break;    
+                break;
 
             case 'top_supplier_year':
                 $title = __('app.Top_supplier_year');
@@ -128,11 +127,11 @@ class ReportController extends Controller
             case 'balance':
                 $title =  __('app.Incomes') . ' - ' . __('app.Expenses') . ' ('. __('general.Monthly') . ')';
                 return $this->balance($title, $type, $month, $year, $year_ini, true);
-                break;     
+                break;
             case 'balance_annual':
                 $title =  __('app.Incomes') . ' - ' . __('app.Expenses') . ' ('. __('general.Annual') . ')';
                 return $this->balance($title, $type, $month, $year, $year_ini, false);
-                break;                                            
+                break;
             default:
                 $data = null;
                 $title = '';
@@ -144,9 +143,9 @@ class ReportController extends Controller
                     ->get();
 
         return view('reports.reports', [
-            'title' => $title, 
-            'type' => $type, 
-            'data' => $data, 
+            'title' => $title,
+            'type' => $type,
+            'data' => $data,
             'limit' => $limit,
             'order' => $order,
             'month' => $month,
@@ -156,12 +155,13 @@ class ReportController extends Controller
         ]);
     }
 
-    private function balance($title, $type, $month, $year, $year_ini, $show_months){
+    private function balance($title, $type, $month, $year, $year_ini, $show_months)
+    {
         $total_incomes_products = Warehouse::leftJoin('products', 'products.id', 'warehouses.product_id')
                 ->leftJoin('categories', 'categories.id', 'products.category_id')
                 ->where('warehouses.type', 'S')
                 ->where('categories.bar', 0)
-                ->when($show_months, function($query) use ($month){
+                ->when($show_months, function ($query) use ($month) {
                     return $query->whereMonth('warehouses.created_at', $month);
                 })
                 ->whereYear('warehouses.created_at', $year)
@@ -171,24 +171,40 @@ class ReportController extends Controller
                 ->leftJoin('categories', 'categories.id', 'products.category_id')
                 ->where('warehouses.type', 'S')
                 ->where('categories.bar', 1)
-                ->when($show_months, function($query) use ($month){
+                ->when($show_months, function ($query) use ($month) {
                     return $query->whereMonth('warehouses.created_at', $month);
                 })
                 ->whereYear('warehouses.created_at', $year)
                 ->sum('total');
 
+        $total_incomes_fees = Fee::when($show_months, function ($query) use ($month) {
+            return $query->whereMonth('fees.created_at', $month);
+        })
+                ->whereYear('fees.created_at', $year)
+                ->sum('price');
+
         $total_expenses_products = Warehouse::leftJoin('products', 'products.id', 'warehouses.product_id')
                 ->leftJoin('categories', 'categories.id', 'products.category_id')
                 ->where('warehouses.type', 'E')
                 ->where('categories.bar', 0)
-                ->when($show_months, function($query) use ($month){
+                ->when($show_months, function ($query) use ($month) {
+                    return $query->whereMonth('warehouses.created_at', $month);
+                })
+                ->whereYear('warehouses.created_at', $year)
+                ->sum('total');
+
+        $total_expenses_bar = Warehouse::leftJoin('products', 'products.id', 'warehouses.product_id')
+                ->leftJoin('categories', 'categories.id', 'products.category_id')
+                ->where('warehouses.type', 'E')
+                ->where('categories.bar', 1)
+                ->when($show_months, function ($query) use ($month) {
                     return $query->whereMonth('warehouses.created_at', $month);
                 })
                 ->whereYear('warehouses.created_at', $year)
                 ->sum('total');
 
         $total_expenses_other = Expense::whereYear('expenses.date_at', $year)
-                        ->when($show_months, function($query) use ($month){
+                        ->when($show_months, function ($query) use ($month) {
                             return $query->whereMonth('expenses.date_at', $month);
                         })
                         ->sum('total');
@@ -196,10 +212,12 @@ class ReportController extends Controller
         return view('reports.reportBalance', [
             'title' => $title,
             'type' => $type,
-            'total_incomes_products' => $total_incomes_products, 
-            'total_incomes_bar' => $total_incomes_bar, 
-            'total_expenses_products' => $total_expenses_products, 
-            'total_expenses_other' => $total_expenses_other, 
+            'total_incomes_products' => $total_incomes_products,
+            'total_incomes_bar' => $total_incomes_bar,
+            'total_incomes_fees' => $total_incomes_fees,
+            'total_expenses_products' => $total_expenses_products,
+            'total_expenses_bar' => $total_expenses_bar,
+            'total_expenses_other' => $total_expenses_other,
             'month' => $month,
             'year' => $year,
             'year_ini' => $year_ini,
@@ -207,4 +225,47 @@ class ReportController extends Controller
         ]);
     }
 
+    public function countMembers()
+    {
+        return Member::where('active', 1)->count();
+    }
+
+    public function countIE()
+    {
+        $balance = $this->balance('', '', Carbon::now()->format('m'), Carbon::now()->format('Y'), 0, true);
+
+        $total = (
+            $balance['total_incomes_products'] +
+            $balance['total_incomes_bar'] +
+            $balance['total_incomes_fees']
+        ) - (
+            $balance['total_expenses_products'] +
+            $balance['total_expenses_bar'] +
+            $balance['total_expenses_other']
+        );
+        return $total;
+    }
+
+    public function countProducts()
+    {
+        return Product::leftJoin('categories', 'categories.id', 'products.category_id')
+                        ->where('bar', 0)
+                        ->where('menu', 1)
+                        ->count();
+    }
+
+    public function countToday()
+    {
+        $today = Carbon::now()->format('Y-m-d');
+        $total_incomes = Warehouse::leftJoin('products', 'products.id', 'warehouses.product_id')
+                ->where('warehouses.type', 'S')
+                ->whereDate('warehouses.created_at', $today)
+                ->sum('total');
+
+        $total_incomes_fees = Fee::whereDate('fees.created_at', $today)
+                ->sum('price');
+
+        $total = $total_incomes + $total_incomes_fees;
+        return $total;
+    }
 }

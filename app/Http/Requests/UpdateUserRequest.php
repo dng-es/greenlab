@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ContactRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class ContactRequest extends FormRequest
     public function messages()
     {
         return [
-            'message.min' => 'Mínimo 8 caracteres',
+            'name.min' => 'El nombre de tener al menos 3 caracteres',
+            'name.max'  => 'El nombre máximo 250 caracteres',
         ];
     }
 
@@ -36,7 +37,8 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'message' => 'required|string|min:8'
+            'name' => 'required|string|min:3|max:250,',
+            'email' => 'required|string|email|unique:users,email,'.$this->user->id,
         ];
     }
 }

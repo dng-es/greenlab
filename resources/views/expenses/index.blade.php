@@ -31,8 +31,6 @@
                     <tr>
                         <th><orderby field="suppliers.name" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Supplier') }}</th>
                         <th class="text-left"><orderby field="notes" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('general.Notes') }}</th>
-                        <th class="text-right"><orderby field="amount" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Amount') }}</th>
-                        <th class="text-right"><orderby field="price" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Price') }}</th>
                         <th class="text-right"><orderby field="total" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Total') }}</th>
                         <th class="text-right"><orderby field="expenses.date_at" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('general.Date') }}</th>
                         <th class="text-right"><orderby field="expenses.created_at" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('general.Created_at') }}</th>
@@ -44,15 +42,11 @@
                     <tr>
                         <td>{{ $element->supplier }}</td>
                         <td class="text-left"><small>{{ $element->notes }}</small></td>
-                        <td class="text-right">
-                            {{ $element->amount }}
-                        </td>
-                        <td class="text-right">{{ $element->price }} <span class="text-muted">{{  __('app.Coin') }}</span></td>
                         <td class="text-right">{{ $element->total }} <span class="text-muted">{{  __('app.Coin') }}</span></td>
                         <td class="text-right"><small>{{ $element->date_at->format('Y-m-d') }}</small></td>
                         <td class="text-right"><small>{{ $element->created_at }}</small></td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-outline-danger btn-confirm" data-confirmbtn="{{ __('general.Delete') }}" data-msg="{{ __('general.SureToDelete') }}?" data-url="{{ route('expense.destroy', ['expense' => $element->id]) }}" title="{{ __('general.Delete') }}"><i class="fa fa-trash"></i></button>
+                            <button class="btn btn-sm btn-outline-danger btn-confirm" data-confirmbtn="{{ __('general.Delete') }}" data-msg="{{ __('general.SureToDelete') }}" data-url="{{ route('expense.destroy', ['expense' => $element->id]) }}" title="{{ __('general.Delete') }}"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
                     @endforeach

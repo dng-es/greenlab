@@ -43,7 +43,7 @@
                                     <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
                                         <label for="category_id" class="control-label">{{ __('app.Category')}}</label>
                                         <div class="input-group mb-3 my-group">
-                                            <select id="category_id" class="form-control" name="category_id">
+                                            <select id="category_id" class="form-control selectpicker show-tick" name="category_id">
                                             @foreach($categories as $category)
                                                 <option value="{{ $category->id }}" @php echo ($product->category_id == $category->id ? ' selected="selected" ' : '');@endphp>{{ $category->name }}</option>
                                             @endforeach
@@ -59,7 +59,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="price" class="control-label">{{ __('app.Price')}}</label>
+                                        <label for="price" class="control-label">
+                                            {{ __('app.Price')}}
+                                            <small>
+                                                {{  __('app.Coin') }}/
+                                                @if($product->bar == 0)
+                                                    {{ strtolower(__('app.Gram')) }}
+                                                @else
+                                                    {{ strtolower(__('app.Unit')) }}
+                                                @endif
+                                            </small>
+                                        </label>
                                         <input id="price" type="number" step="any" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ number_format($product->price, 2, '.', ',') }}" required >
                                         @error('price')
                                             <div class="invalid-feedback" role="alert">
@@ -158,7 +168,7 @@
     <div class="tab-pane fade @php echo ( $tab == 'warehouses' ? 'show active' : ''); @endphp" id="nav-warehouses" role="tabpanel" aria-labelledby="nav-warehouses-tab">
         <div class="row">
             <div class="col-md-8">
-                @include('warehouses.partials.list', ['warehouses' => $warehouses, 'search' => $search, 'orderby' => $orderby, 'order' => $order, 'tab' => 'warehouses']) 
+                @include('warehouses.partials.list', ['warehouses' => $warehouses, 'search' => $search, 'orderby' => $orderby, 'order' => $order, 'tab' => 'warehouses', 'type' => 'E']) 
             </div>
             <div class="col-md-4">
                 <div class="card border-0">
@@ -173,7 +183,7 @@
     <div class="tab-pane fade @php echo ( $tab == 'warehouses-out' ? 'show active' : ''); @endphp" id="nav-warehouses-out" role="tabpanel" aria-labelledby="nav-warehouses-out-tab">
         <div class="row">
             <div class="col-md-8">
-                @include('warehouses.partials.list', ['warehouses' => $warehouses_out, 'search' => $search_out, 'orderby' => $orderby_out, 'order' => $order_out, 'tab' => 'warehouses-out']) 
+                @include('warehouses.partials.list', ['warehouses' => $warehouses_out, 'search' => $search_out, 'orderby' => $orderby_out, 'order' => $order_out, 'tab' => 'warehouses-out', 'type' => 'S']) 
             </div>
             <div class="col-md-4">
                

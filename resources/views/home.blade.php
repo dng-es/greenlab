@@ -16,7 +16,7 @@
             @include('members.partials.search')
             <br>
             <button class="btn btn-lg btn-success" data-toggle="modal" data-target="#memberModal"><i class="fa fa-plus-circle"></i> {{ __('app.New_member') }}</button> 
-            <a target="_blank" href="{{ route('menu') }}" class="btn btn-lg btn-primary">Menu</a>
+            <a target="_blank" href="{{ route('menu') }}" class="btn btn-lg btn-primary"><i class="fa fa-eye"></i> {{ __('app.Menu') }}</a>
             <br>
             <img src="{{ session()->get('site')->logoSite() }}" style="width: 250px" class="mt-5" />
         </div>

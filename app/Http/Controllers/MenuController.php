@@ -63,13 +63,13 @@ class MenuController extends Controller
         $menu->fontcolor = $request->input('fontcolor');
 
         //agregar foto
-        if($request->hasFile('background')){
+        if ($request->hasFile('background')) {
             $file = $request->file('background');
             //saneamos el nombre del archivo
             $original_name = $file->getClientOriginalName();
             $extension = \File::extension($original_name);
             $file_name = time().".".$extension;
-            if (\Storage::disk('menu')->put($file_name,  \File::get($file))){
+            if (\Storage::disk('menu')->put($file_name, \File::get($file))) {
                 $menu->background = $file_name;
             }
         }

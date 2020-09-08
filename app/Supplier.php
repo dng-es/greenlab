@@ -33,5 +33,5 @@ class Supplier extends Model
     public function warehouses()
     {
         return $this->hasMany('App\Warehouse');
-    }       
+    }
 }

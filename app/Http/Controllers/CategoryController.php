@@ -10,15 +10,16 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CategoryController extends Controller
-{  
-
+{
     public function index(Request $request, $bar=0)
     {
         $category = Category::select('*')->where('bar', $bar)->with('products');
 
         //busquedas
         $search =  $request->input("search", '');
-        if ($search != "") $category = $category->where('name', 'like', '%'.$search.'%');
+        if ($search != "") {
+            $category = $category->where('name', 'like', '%'.$search.'%');
+        }
 
         //ordernacion del listado
         $order =  $request->input("order", 'DESC');
@@ -56,10 +57,11 @@ class CategoryController extends Controller
                 'name'     => $request->input('name'),
                 'bar'     => $request->input('bar'),
                 'notes'    => $request->input('notes'),
-            ])){    
-            $status = __('general.InsertOkMessage');    
+            ])) {
+            $status = __('general.InsertOkMessage');
+        } else {
+            $status = __('general.ErrorMessage');
         }
-        else $status = __('general.ErrorMessage');
 
         return redirect()->route('category.edit', ['category' => $category->id])->with('status', $status);
     }
@@ -87,7 +89,7 @@ class CategoryController extends Controller
         $category->name = $request->input('name');
         $category->notes = $request->input('notes');
         $category->save();
-        return redirect()->back()->with('status',__('general.UpdateOkMessage'));
+        return redirect()->back()->with('status', __('general.UpdateOkMessage'));
     }
 
     /**

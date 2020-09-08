@@ -15,11 +15,11 @@
         <a  class="btn btn-primary float-right" href="{{ route('users.new') }}" title="{{ __('general.New') }}"><i class="fa fa-plus"></i></a> 
         <br />
     </div>
-    <div class="col-md-4">
-        <export btnstyle="btn-primary" url="{{ route('users.export') }}" label="{{ __('general.Export') }}" btnstyle="btn-success" dates="true"></export>
+    <div class="col-md-3">
+        <export btnstyle="btn-primary" url="{{ route('users.export') }}" label="{{ __('general.Export') }}" btnstyle="btn-success" dates="false"></export>
         <br />
     </div>
-    <div class="col-md-5">
+    <div class="col-md-4">
         <search btnstyle="btn-primary" label="{{ __('general.Search') }}" btnstyle="btn-primary" inputvalue="{{ $search }}"></search>
     </div>
     <div class="col-md-2 text-right">
@@ -42,14 +42,14 @@
             <tr>
                 <td>
                     <span class="font-weight-bold">{{ $element->email }}</span> 
-                    <br><span class="dot {{ $element->email_verified_at == null ? 'bg-danger' : 'bg-success' }}"></span> 
+                    <br><span class="dot bg-success"></span> 
                     <small class="text-muted"> {{ $element->roles->first()->description }}</small>
                 </td>
                 <td>{{ $element->name }}</td>
                 <td>{{ $element->created_at }}</td>
                 <td class="text-right">
                     <a class="btn btn-sm btn-outline-secondary" title="{{ __('general.Edit') }}" href="{{ route('users.edit', ['user' => $element->id]) }}"><i class="fa fa-edit"></i></a> 
-                <button class="btn btn-sm btn-outline-danger btn-confirm" data-confirmbtn="{{ __('general.Delete') }}" data-msg="{{ __('general.SureToDelete') }}?" data-url="{{ route('users.destroy', ['user' => $element->id]) }}" title="{{ __('general.Delete') }}"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-sm btn-outline-danger btn-confirm" data-confirmbtn="{{ __('general.Delete') }}" data-msg="{{ __('general.SureToDelete') }}" data-url="{{ route('users.destroy', ['user' => $element->id]) }}" title="{{ __('general.Delete') }}"><i class="fa fa-trash"></i></button>
                 </td>
             </tr>
             @endforeach

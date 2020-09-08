@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
-{  
-
+{
     public function index(Request $request, $bar=0)
     {
         $products = Product::select('products.*')
@@ -25,7 +24,9 @@ class ProductController extends Controller
 
         //busquedas
         $search =  $request->input("search", '');
-        if ($search != "") $products = $products->where('name', 'like', '%'.$search.'%');
+        if ($search != "") {
+            $products = $products->where('name', 'like', '%'.$search.'%');
+        }
 
         //ordernacion del listado
         $order =  $request->input("order", 'ASC');
@@ -69,10 +70,11 @@ class ProductController extends Controller
                 'category_id'    => $request->input('category_id'),
                 'price'    => $request->input('price'),
                 'menu'    => ($request->has('menu') ? $request->input('menu') : 0),
-            ])){    
-            $status = __('general.InsertOkMessage');    
+            ])) {
+            $status = __('general.InsertOkMessage');
+        } else {
+            $status = __('general.ErrorMessage');
         }
-        else $status = __('general.ErrorMessage');
 
         $bar = $product->category()->first()->bar;
 
@@ -102,8 +104,8 @@ class ProductController extends Controller
 
         //ordernacion del listado
         $order =  $request->input("order", 'DESC');
-        $orderby =  $request->input("orderby", 'warehouses.created_at'); 
-        $warehouses = $warehouses->orderBy($orderby, $order)->paginate(15);
+        $orderby =  $request->input("orderby", 'warehouses.created_at');
+        $warehouses = $warehouses->orderBy($orderby, $order)->paginate(5);
 
         //Salidas del producto
         $warehouses_out = Warehouse::select('warehouses.*', DB::raw("CONCAT(members.name,' ',members.last_name)  AS fullname"), 'products.name AS product', 'categories.name AS category', 'categories.bar AS bar')
@@ -119,14 +121,14 @@ class ProductController extends Controller
 
         //ordernacion del listado
         $order_out =  $request->input("order-out", 'DESC');
-        $orderby_out =  $request->input("orderby-out", 'warehouses.created_at'); 
-        $warehouses_out = $warehouses_out->orderBy($orderby_out, $order_out)->paginate(2);
+        $orderby_out =  $request->input("orderby-out", 'warehouses.created_at');
+        $warehouses_out = $warehouses_out->orderBy($orderby_out, $order_out)->paginate(5);
 
         $categories = Category::where('bar', $bar)->get();
         $tab =  $request->input("tab", '');
 
         return view('products.edit', [
-            'product' => $product, 
+            'product' => $product,
             'categories' => $categories,
             'warehouses' => $warehouses,
             'order' => $order,
@@ -155,7 +157,7 @@ class ProductController extends Controller
         $product->price = $request->input('price');
         $product->menu = ($request->has('menu') ? $request->input('menu') : 0);
         $product->save();
-        return redirect()->back()->with('status',__('general.UpdateOkMessage'));
+        return redirect()->back()->with('status', __('general.UpdateOkMessage'));
     }
 
     /**
@@ -182,5 +184,4 @@ class ProductController extends Controller
     {
         return Excel::download(new ProductsExport($request), 'products.'.$exportOption);
     }
-
 }

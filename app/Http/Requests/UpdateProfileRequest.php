@@ -27,7 +27,7 @@ class UpdateProfileRequest extends FormRequest
             'name.min' => 'El nombre de tener al menos 3 caracteres',
             'name.max'  => 'El nombre máximo 250 caracteres',
         ];
-    }    
+    }
 
     /**
      * Get the validation rules that apply to the request.

@@ -20,7 +20,7 @@
     <div class="form-group{{ $errors->has('notes') ? ' has-error' : '' }}">
         <a href="#" class="text-info notes-up"><i class="fa fa-plus-circle"></i></a> <label for="notes" class="control-label">{{ __('general.Notes') }}:</label>
         <div style="display:none" class="notes-down">
-            <textarea id="credit_notes" class="border-0 bg-light text-right form-control @error('notes') is-invalid @enderror" name="notes">{{ old('notes') }}</textarea>
+            <textarea id="credit_notes" class="border-0 bg-light form-control @error('notes') is-invalid @enderror" name="notes">{{ old('notes') }}</textarea>
         </div>
     </div>    
 

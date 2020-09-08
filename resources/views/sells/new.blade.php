@@ -42,19 +42,23 @@
         <form class="form-horizontal" method="POST" action="" id="sell_form" accept-charset="UTF-8" >
             {{ csrf_field() }}
             <div class="row mb-3">
-                <div class="col-md-9">
-                    <button class="btn btn-warning" type="submit"><i class="fa fa-shopping-cart"></i> {{ __('app.Sell_finish') }}</button> 
+                <div class="col-md-8">
+                    {{-- <button class="btn btn-warning" type="submit"><i class="fa fa-shopping-cart"></i> {{ __('app.Sell_finish') }}</button> --}} 
                     
                     <button id="credit_finish" class="btn btn-warning" type="button"><i class="fa fa-shopping-cart"></i> {{ __('app.Sell_finish_credit') }}</button> 
 
                     <button class="btn btn-danger" type="button" id="sell_reset"><i class="fa fa-history"></i> {{ __('app.Sell_reset') }}</button>
                 </div>
-                <div class="col-md-3">
-                    <h3 class="sectionHeader text-right mb-0">
-                        {{ __('app.Sell_total') }}: 
-                        {{-- <span id="total_amount">0</span>gr. -  --}}
-                        <span id="total_price">0</span>{{  __('app.Coin') }}
-                    </h3>
+                <div class="col-md-4">
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <h3 class="sectionHeader mb-0 text-center text-secondary">
+                                {{ __('app.Sell_total') }}: 
+                                {{-- <span id="total_amount">0</span>gr. -  --}}
+                                <span id="total_price">0</span>{{  __('app.Coin') }}
+                            </h3>
+                        </div>
+                    </div>
                 </div>
             </div>
 

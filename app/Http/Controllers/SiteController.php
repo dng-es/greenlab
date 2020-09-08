@@ -82,13 +82,13 @@ class SiteController extends Controller
         $site->lang = $request->input('lang');
 
         //agregar logo
-        if($request->hasFile('logo')){
+        if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             //saneamos el nombre del archivo
             $original_name = $file->getClientOriginalName();
             $extension = \File::extension($original_name);
             $file_name = time().".".$extension;
-            if (\Storage::disk('sites')->put($file_name,  \File::get($file))){
+            if (\Storage::disk('sites')->put($file_name, \File::get($file))) {
                 $site->logo = $file_name;
             }
         }

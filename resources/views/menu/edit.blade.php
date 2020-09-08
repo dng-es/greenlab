@@ -14,34 +14,39 @@
 
     <div class="row">
         <div class="col-md-3">
-            <div class="form-group">
-                <label for="fontsize" class="control-label">{{ __('general.Fontsize') }}</label>
-                <input id="fontsize" type="number" class="form-control " name="fontsize" value="{{ $menu->fontsize }}" required>
-            </div>  
+            <div class="card border-0">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="fontsize" class="control-label">{{ __('general.Fontsize') }}</label>
+                        <input id="fontsize" type="number" class="form-control " name="fontsize" value="{{ $menu->fontsize }}" required>
+                    </div>  
 
-            <div class="form-group">
-                <label for="fontcolor" class="control-label">{{ __('general.Fontcolor') }}</label>
-                <div id="cp1" class="input-group" title="Color de la categoría">
-                    <input type="text" name="fontcolor" id="fontcolor" class="form-control input-lg @error('fontcolor') is-invalid @enderror" value="{{ $menu->fontcolor }}"/>
-                    <span class="input-group-append">
-                    <span class="input-group-text colorpicker-input-addon"><i></i></span>
-                    </span>
-                    @error('fontcolor')
-                        <div class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
+                    <div class="form-group">
+                        <label for="fontcolor" class="control-label">{{ __('general.Fontcolor') }}</label>
+                        <div id="cp1" class="input-group" title="Color de la categoría">
+                            <input type="text" name="fontcolor" id="fontcolor" class="form-control input-lg @error('fontcolor') is-invalid @enderror" value="{{ $menu->fontcolor }}"/>
+                            <span class="input-group-append">
+                            <span class="input-group-text colorpicker-input-addon"><i></i></span>
+                            </span>
+                            @error('fontcolor')
+                                <div class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @enderror
                         </div>
-                    @enderror
+                    </div>  
+
+                    <div class="form-group">
+                        <label for="background" class="control-label">{{ __('general.Background') }}</label>
+                        <input type="file" id="background" name="background" data-text="{{ __('general.ChooseFile') }}" class="filestyle btn-block" id="image" aria-describedby="file" accept="image/png, image/jpeg">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-warning btn-block"><i class="fa fa-save text-white"></i> {{ __('general.SaveData') }}</button> 
+                        
+                        <a target="_blank" href="{{ route('menu') }}" class="btn btn-success btn-block"><i class="fa fa-eye"></i> {{ __('general.Preview') }}</a>
+                    </div>
                 </div>
-            </div>  
-
-            <div class="form-group">
-                <label for="background" class="control-label">{{ __('general.Background') }}</label>
-                <input type="file" id="background" name="background" data-text="{{ __('general.ChooseFile') }}" class="filestyle btn-block" id="image" aria-describedby="file" accept="image/png, image/jpeg">
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> {{ __('general.SaveData') }}</button> 
-                <a target="_blank" href="{{ route('menu') }}" class="btn btn-success btn-block"><i class="fa fa-eye"></i> {{ __('general.Preview') }}</a>
             </div>
         </div>
         <div class="col-md-9">

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-	use SoftDeletes;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +20,7 @@ class Category extends Model
 
     protected $hidden = [
         'deleted_at',
-    ];    
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -47,5 +47,5 @@ class Category extends Model
     public function productsActive()
     {
         return $this->products()->where('menu', 1);
-    }    
+    }
 }

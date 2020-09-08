@@ -3,7 +3,7 @@
         <div  v-bind:class="[dates == 'true' ? 'col-md-4' : 'col-md-12']">   
             <div class="input-group mb-3 my-group">   
                 <label class="sr-only" for="exportOption">{{ label }}</label>   
-                <select id="exportOption" class="selectpicker form-control" data-live-search="true">
+                <select id="exportOption" class="selectpicker show-tick form-control" data-live-search="true">
                     <option value="xlsx">xlsx</option>
                     <option value="csv">csv</option>
                     <option value="xls">xls</option>

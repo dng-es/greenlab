@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ session()->get('site')->name }}</title>
+    <link rel="shortcut icon" href="{{ session()->get('site')->logoSite() }}">
 
 
     <!-- Fonts -->
@@ -35,6 +36,7 @@
     @include('layouts.footer')
 
     <!-- Scripts -->
+    <script src="{{ asset('js/lang.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript" src="{{ url('vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     @yield('js')

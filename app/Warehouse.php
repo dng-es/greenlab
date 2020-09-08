@@ -34,7 +34,7 @@ class Warehouse extends Model
     protected $dispatchesEvents = [
         'created' => WarehouseEvent::class,
         'deleted' => WarehouseDeleteEvent::class,
-    ];    
+    ];
 
     /**
      * Get the user
@@ -43,8 +43,8 @@ class Warehouse extends Model
     {
         return $this->belongsTo('App\User')->withDefault([
             'name' => '[Deleted]'
-        ]); 
-    }  
+        ]);
+    }
 
     /**
      * Get the product
@@ -54,7 +54,7 @@ class Warehouse extends Model
         return $this->belongsTo('App\Product')->withDefault([
             'name' => '[Deleted]'
         ]);
-    }  
+    }
 
     /**
      * Get the member
@@ -63,7 +63,7 @@ class Warehouse extends Model
     {
         return $this->belongsTo('App\Member')->withDefault([
             'name' => '[None]'
-        ]); 
+        ]);
     }
 
     /**
@@ -73,22 +73,22 @@ class Warehouse extends Model
     {
         return $this->belongsTo('App\Supplier')->withDefault([
             'name' => '[None]'
-        ]); 
-    } 
+        ]);
+    }
 
     /**
-     * Get the IN movements 
+     * Get the IN movements
      */
     public function entradas()
     {
         return $this->where('type', 'E');
-    } 
+    }
 
     /**
-     * Get the OUT movements 
+     * Get the OUT movements
      */
     public function salidas()
     {
         return $this->where('type', 'S');
-    } 
+    }
 }

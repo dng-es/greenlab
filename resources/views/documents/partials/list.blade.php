@@ -8,7 +8,7 @@ $tab = (isset($tab) ? $tab : 'documents')
             <tr>
                 <td><a target="_blank" href="{{ Storage::disk('user_images')->url($element->file) }}">{{ $element->name }}</a></td>
                 <td width="40px">
-                    <button class="btn btn-sm btn-outline-danger btn-confirm" data-confirmbtn="{{ __('general.Delete') }}" data-msg="{{ __('general.SureToDelete') }}?" data-url="{{ route('member.document.destroy', ['document' => $element->id]) }}" title="{{ __('general.Delete') }}"><i class="fa fa-trash"></i></button>
+                    <button class="btn btn-sm btn-outline-danger btn-confirm" data-confirmbtn="{{ __('general.Delete') }}" data-msg="{{ __('general.SureToDelete') }}" data-url="{{ route('member.document.destroy', ['document' => $element->id]) }}" title="{{ __('general.Delete') }}"><i class="fa fa-trash"></i></button>
                 </td>
             </tr>
             @empty

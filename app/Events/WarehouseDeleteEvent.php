@@ -25,8 +25,11 @@ class WarehouseDeleteEvent
     {
         //actualizar stock del producto dependiendo del tipo
         $product = Product::findOrFail($warehouse->product_id);
-        if ($warehouse->type == 'E') $product->amount -= $warehouse->amount_real;
-        else $product->amount += $warehouse->amount_real;
+        if ($warehouse->type == 'E') {
+            $product->amount -= $warehouse->amount_real;
+        } else {
+            $product->amount += $warehouse->amount_real;
+        }
         $product->save();
     }
 }

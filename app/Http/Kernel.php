@@ -36,7 +36,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 
-            // appending custom middleware 
+            // appending custom middleware
             \App\Http\Middleware\SiteMiddleware::class,
             \App\Http\Middleware\LanguageMiddleware::class,
         ],

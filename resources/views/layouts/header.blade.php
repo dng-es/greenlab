@@ -34,9 +34,9 @@
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('profile') }}">{{ __('general.Profile') }}</a>
-                            @if (Auth::user()->hasRole('admin'))
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('members') }}">{{ __('app.Members') }}</a>
+                            @if (Auth::user()->hasRole('admin'))
                             <a class="dropdown-item" href="{{ route('products') }}">{{ __('app.Products') }} - {{ __('app.ProductMain') }}</a>
                             <a class="dropdown-item" href="{{ route('products.bar') }}">{{ __('app.Products') }} - {{ __('app.Bar') }}</a>
                             <div class="dropdown-divider"></div>

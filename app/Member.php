@@ -21,7 +21,7 @@ class Member extends Model
      * @var array
      */
     protected $fillable = [
-        'code', 'vat', 'name', 'last_name', 'telephone', 'email', 'picture', 'born_at', 'active', 'notes', 'credit', 'user_id'
+        'code', 'vat', 'name', 'last_name', 'telephone', 'email', 'picture', 'born_at', 'active','address', 'notes', 'credit', 'user_id'
     ];
 
     /**
@@ -51,8 +51,8 @@ class Member extends Model
     {
         return $this->belongsTo('App\User')->withDefault([
             'name' => '[None]'
-        ]); 
-    }    
+        ]);
+    }
 
     /**
      * Get the fees
@@ -60,7 +60,7 @@ class Member extends Model
     public function fees()
     {
         return $this->hasMany('App\Fee');
-    }  
+    }
 
     /**
      * Get the warehouses
@@ -76,7 +76,7 @@ class Member extends Model
     public function credits()
     {
         return $this->hasMany('App\Credit');
-    }   
+    }
 
     /**
      * Get the documents
@@ -84,12 +84,15 @@ class Member extends Model
     public function documents()
     {
         return $this->hasMany('App\Document');
-    }   
+    }
 
     public function imageProfile()
     {
-        if ( \Storage::disk('user_images')->exists($this->picture) ) $filename = $this->picture;
-        else $filename = 'default.jpg';
+        if (\Storage::disk('user_images')->exists($this->picture)) {
+            $filename = $this->picture;
+        } else {
+            $filename = 'default.jpg';
+        }
         return \Storage::disk('user_images')->url($filename);
     }
 }

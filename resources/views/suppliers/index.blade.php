@@ -35,11 +35,11 @@
         <tbody>
             @foreach ($suppliers as $element)
             <tr>
-                <td>{{ $element->name }}</td>
+                <td><a title="{{ __('general.Edit') }}" href="{{ route('supplier.edit', ['supplier' => $element->id]) }}">{{ $element->name }}</a></td>
                 <td>{{ $element->notes }}</td>
                 <td class="text-right">
                     <a class="btn btn-sm btn-outline-secondary" title="{{ __('general.Edit') }}" href="{{ route('supplier.edit', ['supplier' => $element->id]) }}"><i class="fa fa-edit"></i></a> 
-                    <button class="btn btn-sm btn-outline-danger btn-confirm" data-confirmbtn="{{ __('general.Delete') }}" data-msg="{{ __('general.SureToDelete') }}?" data-url="{{ route('supplier.destroy', ['supplier' => $element->id]) }}" title="{{ __('general.Delete') }}"><i class="fa fa-trash"></i></button>
+                    <button class="btn btn-sm btn-outline-danger btn-confirm" data-confirmbtn="{{ __('general.Delete') }}" data-msg="{{ __('general.SureToDelete') }}" data-url="{{ route('supplier.destroy', ['supplier' => $element->id]) }}" title="{{ __('general.Delete') }}"><i class="fa fa-trash"></i></button>
                 </td>
             </tr>
             @endforeach

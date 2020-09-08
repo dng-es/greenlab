@@ -15,24 +15,24 @@ class LocaleFileController extends Controller
     private $path;
     private $arrayLang = array();
 
-    public function show() 
+    public function show()
     {
-    	$this->read();
-    	$this->arrayLang;
-        return view('locales', ['locales' => $this->arrayLang]); 
+        $this->read();
+        $this->arrayLang;
+        return view('locales', ['locales' => $this->arrayLang]);
     }
-//------------------------------------------------------------------------------
-// Add or modify lang files content
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
+    // Add or modify lang files content
+    //------------------------------------------------------------------------------
 
-    public function changeLang(Request $request) 
+    public function changeLang(Request $request)
     {
         $this->lang = app()->getLocale();
         $this->file = 'app';
         foreach ($request->input() as $key => $value) {
-        	if ($key != '_token'){
-        		$this->arrayLang[$key] = $value;
-        	}
+            if ($key != '_token') {
+                $this->arrayLang[$key] = $value;
+            }
         }
 
         $this->save();
@@ -40,57 +40,59 @@ class LocaleFileController extends Controller
         return redirect()->back()->with('status', __('general.UpdateOkMessage'));
     }
 
-//------------------------------------------------------------------------------
-// Add or modify lang files content
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
+    // Add or modify lang files content
+    //------------------------------------------------------------------------------
 
-    private function changeLangFileContent() 
+    private function changeLangFileContent()
     {
         $this->read();
         $this->arrayLang[$this->key] = $this->value;
         $this->save();
     }
 
-//------------------------------------------------------------------------------
-// Delete from lang files
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
+    // Delete from lang files
+    //------------------------------------------------------------------------------
 
-    private function deleteLangFileContent() 
+    private function deleteLangFileContent()
     {
         $this->read();
         unset($this->arrayLang[$this->key]);
         $this->save();
     }
 
-//------------------------------------------------------------------------------
-// Read lang file content
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
+    // Read lang file content
+    //------------------------------------------------------------------------------
 
-    private function read() 
+    private function read()
     {
-        if ($this->lang == '') $this->lang = App::getLocale();
+        if ($this->lang == '') {
+            $this->lang = App::getLocale();
+        }
         $this->path = base_path().'/resources/lang/'.$this->lang.'/'.$this->file.'.php';
         $this->arrayLang = Lang::get($this->file);
-        if (gettype($this->arrayLang) == 'string') $this->arrayLang = array();
+        if (gettype($this->arrayLang) == 'string') {
+            $this->arrayLang = array();
+        }
     }
 
-//------------------------------------------------------------------------------
-// Save lang file content
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
+    // Save lang file content
+    //------------------------------------------------------------------------------
 
-    private function save() 
+    private function save()
     {
         $this->path = base_path().'/resources/lang/'.$this->lang.'/'.$this->file.'.php';
         $content = "<?php\n\nreturn\n[\n";
 
-        foreach ($this->arrayLang as $this->key => $this->value) 
-        {
+        foreach ($this->arrayLang as $this->key => $this->value) {
             $content .= "\t'".$this->key."' => '".$this->value."',\n";
         }
 
         $content .= "];";
 
         file_put_contents($this->path, $content);
-
     }
 }

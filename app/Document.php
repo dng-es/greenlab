@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Document extends Model
 {
-	use SoftDeletes;
+    use SoftDeletes;
 
-	/**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -20,7 +20,7 @@ class Document extends Model
 
     protected $hidden = [
         'deleted_at',
-    ]; 
+    ];
     /**
      * The attributes that should be mutated to dates.
      *
@@ -30,7 +30,7 @@ class Document extends Model
         'created_at',
         'updated_at',
         'deleted_at',
-    ];    
+    ];
 
     /**
      * Get the member
@@ -39,6 +39,6 @@ class Document extends Model
     {
         return $this->belongsTo('App\Member')->withDefault([
             'name' => '[None]'
-        ]); 
-    } 
+        ]);
+    }
 }

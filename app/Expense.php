@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
-	use SoftDeletes;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +24,7 @@ class Expense extends Model
 
     protected $hidden = [
         'deleted_at',
-    ];    
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -45,7 +45,7 @@ class Expense extends Model
     {
         return $this->belongsTo('App\User')->withDefault([
             'name' => '[Deleted]'
-        ]); 
+        ]);
     }
 
     /**
@@ -55,6 +55,6 @@ class Expense extends Model
     {
         return $this->belongsTo('App\Supplier')->withDefault([
             'name' => '[None]'
-        ]); 
+        ]);
     }
 }

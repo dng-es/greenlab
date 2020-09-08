@@ -43,10 +43,11 @@ class CreditController extends Controller
                 'member_id'     => $request->input('member_id'),
                 'credit'    => $request->input('credit'),
                 'notes'    => $request->input('notes'),
-            ])){    
+            ])) {
             return response()->json(['success'=> __('general.InsertOkMessage'), 'data' => $credit]);
+        } else {
+            return response()->json(['error'=> __('general.ErrorMessage')]);
         }
-        else return response()->json(['error'=> __('general.ErrorMessage')]);        
     }
 
     /**

@@ -1,15 +1,15 @@
-<div class="row resumeFont {{ $class_row }} pt-1 pb-0 rounded mt-1 mb-1">
+<div class="row resumeFont pt-1 pb-0 rounded mt-1 mb-1">
     <div class="col-md-4 text-right">
-        <small>
+        <span class="badge badge-{{ $class_row }}">{{ $product->category }}</span>
+        <span class="badge badge-secondary">
         @if($product->bar == 0)
             @php $label_amount = strtolower(__('app.Grams'));@endphp
-            {{ $product->category }} - {{ $product->price }} {{  __('app.Coin') }}
-            /{{ strtolower(__('app.Gram')) }}
+            {{ $product->price }} {{  __('app.Coin') }}/{{ strtolower(__('app.Gram')) }}
         @else
             @php $label_amount = strtolower(__('app.Unit'));@endphp
-            {{ $product->category }} - {{ $product->price }} {{  __('app.Coin') }}
+            {{ $product->price }} {{  __('app.Coin') }}
         @endif
-        </small> 
+        </span>
         <span class="resumeFontMedium">{{ $product->name }}</span>
     </div>
     <div class="col-md-1 text-right">

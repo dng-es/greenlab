@@ -4,14 +4,13 @@ namespace App;
 
 use App\Role;
 use App\Traits\EncryptTrait;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Crypt;
 
 //class User extends Authenticatable
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use SoftDeletes;
     use Notifiable;
@@ -98,8 +97,8 @@ class User extends Authenticatable implements MustVerifyEmail
             }
         } else {
             if ($this->hasRole($roles)) {
-                 return true; 
-            }   
+                return true;
+            }
         }
         return false;
     }
@@ -122,5 +121,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function warehouses()
     {
         return $this->hasMany('App\Warehouse');
-    }    
+    }
 }

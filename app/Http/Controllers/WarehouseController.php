@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Exports\WarehousesExport;
 use App\Http\Requests\WarehouseRequest;
 use App\Warehouse;
@@ -12,26 +11,26 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
-
 class WarehouseController extends Controller
-{  
+{
     public function index(Request $request, $type)
     {
-        $warehouses = Warehouse::when($type == 'S', function($query){
-                        return $query->select('warehouses.*', DB::raw("CONCAT(members.name,' ',members.last_name)  AS fullname"), 'products.name AS product', 'categories.name AS category', 'categories.bar AS bar')
+        $warehouses = Warehouse::when($type == 'S', function ($query) {
+            return $query->select('warehouses.*', DB::raw("CONCAT(members.name,' ',members.last_name)  AS fullname"), 'products.name AS product', 'categories.name AS category', 'categories.bar AS bar')
                                 ->leftJoin('members', 'members.id', 'warehouses.member_id');
-                    }, function($query){
-                        return $query->select('warehouses.*', 'suppliers.name AS fullname', 'products.name AS product', 'categories.name AS category', 'categories.bar AS bar')
+        }, function ($query) {
+            return $query->select('warehouses.*', 'suppliers.name AS fullname', 'products.name AS product', 'categories.name AS category', 'categories.bar AS bar')
                                 ->leftJoin('suppliers', 'suppliers.id', 'warehouses.supplier_id');
-
-                    })
+        })
             ->leftJoin('products', 'products.id', 'warehouses.product_id')
             ->leftJoin('categories', 'categories.id', 'products.category_id')
             ->where('warehouses.type', $type);
 
         //busquedas
         $search =  $request->input("search", '');
-        //if ($search != "") $warehouses = $warehouses->where('last_name', 'like', '%'.$search.'%');
+        if ($search != "") {
+            $warehouses = $warehouses->where('products.name', 'like', '%'.$search.'%');
+        }
 
 
         //ordernacion del listado
@@ -63,10 +62,11 @@ class WarehouseController extends Controller
                 'amount_real'    => $request->input('amount_real'),
                 'total'    => $request->input('total'),
                 'type'    => $request->input('type'),
-            ])){    
+            ])) {
             $message = __('general.InsertOkMessage');
+        } else {
+            $message =  __('general.ErrorMessage');
         }
-        else $message =  __('general.ErrorMessage');
 
         return redirect()->back()->with('status', $message);
     }

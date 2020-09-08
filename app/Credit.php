@@ -23,7 +23,7 @@ class Credit extends Model
      */
     protected $dispatchesEvents = [
         'created' => CreditEvent::class,
-    ];  
+    ];
 
     /**
      * Get the user
@@ -32,7 +32,7 @@ class Credit extends Model
     {
         return $this->belongsTo('App\User')->withDefault([
             'name' => '[None]'
-        ]); 
+        ]);
     }
 
     /**
@@ -42,6 +42,6 @@ class Credit extends Model
     {
         return $this->belongsTo('App\Member')->withDefault([
             'name' => '[None]'
-        ]); 
-    }    
+        ]);
+    }
 }
