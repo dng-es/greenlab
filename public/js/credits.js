@@ -36,6 +36,10 @@ jQuery(document).ready(function(){
         $('#credit_notes').val('');
     })
 
+    $('#creditModal').on('shown.bs.modal', function (e) {
+        $('#credit').focus();
+    })
+
     function resetform(){
         resetMessages()
     }

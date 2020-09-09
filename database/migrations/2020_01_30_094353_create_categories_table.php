@@ -16,6 +16,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('name');
+            $table->string('color')->default('#38c172');
             $table->smallInteger('bar')->default(0);
             $table->text('notes');
             $table->softDeletes();

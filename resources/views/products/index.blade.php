@@ -38,7 +38,7 @@
                         <th><orderby field="name" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Product') }}</th>
                         <th class="text-right"><orderby field="price" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Price') }}</th>
                         <th class="text-right"><orderby field="amount" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Amount') }}</th>
-                        <th class="text-right"><orderby field="menu" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Menu') }}</th>
+                        <th class="text-center"><orderby field="menu" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('app.Menu') }}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -57,7 +57,7 @@
                             <small><em class="text-muted">{{ strtolower(__('app.Unit')) }}</em></small>
                             @endif
                         </td>
-                        <td class="text-right">
+                        <td class="text-center">
                             @if ($element->menu == 1)
                                 <i class="fa fa-check text-success"></i>
                             @else

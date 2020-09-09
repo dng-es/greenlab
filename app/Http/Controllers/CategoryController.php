@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\CategoryRequest;
+use App\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +56,7 @@ class CategoryController extends Controller
     {
         if ($category = Category::create([
                 'name'     => $request->input('name'),
+                'color'     => $request->input('color'),
                 'bar'     => $request->input('bar'),
                 'notes'    => $request->input('notes'),
             ])) {
@@ -74,7 +76,14 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('categories.edit', ['category' => $category]);
+        $products = Product::select('products.*')
+                    ->leftJoin('categories', 'categories.id', 'products.category_id')
+                    ->where('products.category_id', $category->id)
+                    ->with('category');
+        
+        $products = $products->orderBy('name', 'ASC')->paginate(10);
+
+        return view('categories.edit', ['category' => $category, 'products' => $products]);
     }
 
     /**
@@ -87,6 +96,7 @@ class CategoryController extends Controller
     public function update(Category $category, CategoryRequest $request)
     {
         $category->name = $request->input('name');
+        $category->color = $request->input('color');
         $category->notes = $request->input('notes');
         $category->save();
         return redirect()->back()->with('status', __('general.UpdateOkMessage'));

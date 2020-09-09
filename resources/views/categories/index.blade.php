@@ -16,7 +16,7 @@
 
 <div class="row">
     <div class="col-md-1">
-        <a  class="btn btn-primary float-right" href="{{ route('category.new', ['bar' => $bar]) }}" title="{{ __('general.New') }}"><i class="fa fa-plus"></i></a> 
+        <a  class="btn btn-primary btn-block" href="{{ route('category.new', ['bar' => $bar]) }}" title="{{ __('general.New') }}"><i class="fa fa-plus"></i></a> 
         <br />
     </div>
     <div class="col-md-5">
@@ -31,6 +31,7 @@
     <table class="table table-hover table-striped">
         <thead class="thead-dark">
             <tr>
+                <th width="40px"></th>
                 <th><orderby field="name" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('general.Name') }}</th>
                 <th><orderby field="notes" order="{{ $order }}" orderby="{{ $orderby }}" search="{{ $search }}"></orderby>{{ __('general.Notes') }}</th>
                 <th></th>
@@ -39,6 +40,7 @@
         <tbody>
             @foreach ($category as $element)
             <tr>
+                <td><span class="badge pr-2 pl-2" style="background-color: {{ $element->color }}">&nbsp;</span></td>
                 <td><a title="{{ __('general.Edit') }}" href="{{ route('category.edit', ['category' => $element->id]) }}">{{ $element->name }}</a></td>
                 <td>{{ $element->notes }}</td>
                 <td class="text-right">

@@ -42,7 +42,7 @@ jQuery(window).ready(function(){
 
 	$(".notes-up").click(function (e){
     	e.preventDefault();
-    	$(this).next().next('.notes-down').slideToggle();
+    	$(this).next().next('.notes-down').slideToggle('fast');
 
     	var icon = $(this).find('.fa');
     	if (icon.hasClass('fa-plus-circle')){

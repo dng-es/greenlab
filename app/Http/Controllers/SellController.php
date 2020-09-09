@@ -24,7 +24,7 @@ class SellController extends Controller
         if ($member->active == 0) {
             return abort(403, __('app.Members_inactive_alert'));
         } else {
-            $products = Product::select('products.*', 'categories.name AS category', 'categories.bar AS bar')
+            $products = Product::select('products.*', 'categories.name AS category', 'categories.bar AS bar', 'categories.color AS color')
                         ->leftJoin('categories', 'categories.id', 'products.category_id')
                         ->where('menu', 1)
                         ->orderBy('categories.bar')

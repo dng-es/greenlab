@@ -29,7 +29,7 @@ return [
     'Delete' => 'Delete',
     'Update' => 'Update',
     'Export' => 'Export',
-    'SaveData' => 'Save data',    
+    'SaveData' => 'Save data',
     'Send' => 'Send',
     'AceptMsg' => 'Acept',
     'CancelMsg' => 'Cancel',
@@ -121,4 +121,5 @@ return [
     'Generate_random' => "Generate random",
     'Claim' => "All rights resrverd. Licensed Product.",
     'Address' => "Address",
+    'Color' => "Color",
 ];

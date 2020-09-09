@@ -1,6 +1,9 @@
+<?php
+$size = (!isset($size) ? 'input-group-lg' : $size);
+?>
 <form role="form" data-sell="{{ route('sell') }}" action="{{ route('members.search') }}" method="get" class="form-media" name="search_member" id="search_member">
     {{ csrf_field() }}
-    <div class="input-group input-group-lg mb-3">
+    <div class="input-group {{ $size }} mb-3">
         <label class="sr-only" for="search_member_value">{{ __('app.Search_member') }}</label>
         <input type="text" class="form-control" id="search_member_value" name="search_member_value" placeholder="{{ __('app.Search_member') }}" value="">
         <div class="input-group-append">

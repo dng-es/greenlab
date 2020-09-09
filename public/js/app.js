@@ -52893,7 +52893,7 @@ var app = new Vue({
 jQuery(window).ready(function () {
   $(".notes-up").click(function (e) {
     e.preventDefault();
-    $(this).next().next('.notes-down').slideToggle();
+    $(this).next().next('.notes-down').slideToggle('fast');
     var icon = $(this).find('.fa');
 
     if (icon.hasClass('fa-plus-circle')) {
@@ -52911,9 +52911,9 @@ jQuery(window).ready(function () {
     e.preventDefault();
     var elem = $(this);
     var Msg = elem.data('msg') ? elem.data('msg') : "Mensaje del dialogo";
-    var Title = elem.data('title') ? elem.data('title') : i18n.general.AreYouSure;
-    var CancelButton = elem.data('cancelbtn') ? elem.data('cancelbtn') : i18n.general.CancelMsg;
-    var ConfirmButton = elem.data('confirmbtn') ? elem.data('confirmbtn') : i18n.general.ConfirmMsg;
+    var Title = elem.data('title') ? elem.data('title') : "¿Estas seguro?";
+    var CancelButton = elem.data('cancelbtn') ? elem.data('cancelbtn') : "Cancelar";
+    var ConfirmButton = elem.data('confirmbtn') ? elem.data('confirmbtn') : "Confirmar";
     var Destino = elem.data('url') ? elem.data('url') : "#";
     Swal.fire({
       title: Title,

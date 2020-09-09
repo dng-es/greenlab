@@ -24,23 +24,50 @@ $('.money').keyup(function() {
 
 });
 
+$(".btn-remove").click(function (e){
+    e.preventDefault();
+    var id = $(this).data('id');
+
+    $('#prod' + id).val(0);
+    $('#money' + id).val(0);
+
+    recalculateTotals();
+});
+
 var total_money = 0,
     total_amount = 0;
 
 function recalculateTotals(){
     total_money = 0;
     total_amount = 0;
+    total_units = 0;
     
 	$('.amount').each(function(){
-		total_amount += Number($(this).val());
+        var amount = Number($(this).val())
+		total_amount += amount;
+        if (amount > 0) {
+            total_units ++;
+            $(this).css({'background-color' : '#ccc'})
+        }
+        else{
+            $(this).css({'background-color' : '#fff'})
+        }
 	})
 
 	$('.money').each(function(){
-		total_money += Number($(this).val());
+		var money = Number($(this).val());
+        total_money += money;
+        if (money > 0) {
+            $(this).css({'background-color' : '#ccc'})
+        }
+        else{
+            $(this).css({'background-color' : '#fff'})
+        }
 	})
 
 	//$('#total_amount').html(parseFloat(total_amount).toFixed(2));
 	$('#total_price').html(Number(total_money).toFixed(2));
+    $('#total_units').html(Number(total_units));
 }
 
 //reset

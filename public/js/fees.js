@@ -36,6 +36,10 @@ jQuery(document).ready(function(){
         $('#fees').val(0);
     })
 
+    $('#feesModal').on('shown.bs.modal', function (e) {
+        $('#price').focus();
+    })
+
     function resetform(){
         resetMessages()
     }

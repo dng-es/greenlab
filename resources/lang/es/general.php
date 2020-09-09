@@ -121,4 +121,5 @@ return [
     'Generate_random' => "Generar aleatorio",
     'Claim' => "Todos los derechos reservados. Producto licenciado.",
     'Address' => "Dirección",
+    'Color' => "Color",
 ];
